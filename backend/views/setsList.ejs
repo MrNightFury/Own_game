@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/style.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра – Главная</title>
+    </head>
+    <body>
+        <main>
+            <table>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Set author</th>
+                </tr>
+                <% for( let i = 0; i < sets.length; i++ ) { %>
+                    <tr><td></td></tr>
+                <% } %>
+            </table>
+        </main>
+    </body>
+</html>

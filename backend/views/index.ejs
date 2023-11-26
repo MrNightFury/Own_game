@@ -1,37 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name = "viewport" content = "wight=device-wight, initial-scale=1.0">
-
         <link rel="stylesheet/less" type="text/css" href="css/style.less">
-
-        <script src="./scripts/less.js" data-env="development" type="text/javascript"></script>
-        
-        <script>less.watch()</script>
-        <!-- <link rel="icon" type="image/png" href="../images/"> -->
-        <title>Своя игра</title>
+        <%- include('parts/head'); %>
+        <title>Своя игра – Главная</title>
     </head>
     <body>
         <main>
-            <div id="admin">
-                <img class="avatar" src="../images/profile_picture.jpg">
-                <p>Admin</p>
-            </div>
-            <div id="game">
-                <div id="screen">
-                    <% for (let i = 0; i < 10; i++) { %>
-                        <div><%= i %></div>
-                    <% }; %>
-                </div>
-            </div>
-            <div id="panel">
-                <p>panel</p>
-            </div>
-            <div id="users">
-                <p>users</p>
-            </div>
+            
         </main>
     </body>
 </html>

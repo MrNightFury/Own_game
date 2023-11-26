@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    build: database/
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - database/.env
+    ports:
+      - 3307:3306
+  
+  node:
+    depends_on:
+      - db
+    build: backend/
+    volumes:
+      - ./backend/views:/server/views
+
+  nginx:
+    build: nginx/
+    depends_on:
+      - node
+    ports:
+      - 80:80
+    volumes:
+      - ./backend/static:/site
+
+volumes:
+  db_data:

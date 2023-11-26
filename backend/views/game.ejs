@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/editor.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра</title>
+    </head>
+    <body>
+        <main>
+            <div id="admin">
+                <img class="avatar" src="../images/profile_picture.jpg">
+                <p>Admin</p>
+            </div>
+            <div id="game">
+                <div id="screen">
+                    <% for (let i = 0; i < 10; i++) { %>
+                        <div><%= i %></div>
+                    <% }; %>
+                </div>
+            </div>
+            <div id="panel">
+                <p>panel</p>
+            </div>
+            <div id="users">
+                <p><%= name %></p>
+            </div>
+        </main>
+    </body>
+</html>
