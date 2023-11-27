@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/login.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра – Главная</title>
+    </head>
+    <body>
+        <%- include('parts/header', {subtitle: "Text"}) %>
+        <main>
+            <form id="loginForm" method="post" action="./auth/login">
+                <input type="text" placeholder="Login" required>
+                <input type="password" placeholder="Password" required>
+                <input type="submit">
+            </form>
+        </main>
+    </body>
+</html>
