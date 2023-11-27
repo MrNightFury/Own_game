@@ -2,6 +2,11 @@ import fs from "fs";
 
 export interface Config {
     db: DBConfig;
+    jwt: JWTConfig;
+}
+
+export interface JWTConfig {
+    secret: string;
 }
 
 export interface DBConfig {
@@ -19,7 +24,10 @@ export function loadConfig() {
             host: process.env.DB_HOST || config.db.host,
             password: process.env.DB_PASSWORD || config.db.password,
             port: Number(process.env.DB_PORT) || config.db.port,
-        }
+        },
+        jwt: {
+            secret: process.env.JWT_SECRET || config.jwt.secret,
+        },
     }
     return config;
 }
