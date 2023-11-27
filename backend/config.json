@@ -1,8 +1,8 @@
 {
     "db": {
-        "user": "user",
-        "host": "db",
-        "password": "password",
         "port": 3306
+    },
+    "jwt": {
+        "secret": "NestJSIsCool"
     }
 }

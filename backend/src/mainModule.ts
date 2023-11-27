@@ -7,7 +7,7 @@ import { SetsEditorController } from './controllers/view/SetsEditorController.js
 import { SetsRepository } from './db/SetsRepository.js';
 import { AccountControler } from './controllers/view/AccountController.js';
 import { AuthControler } from './controllers/api/AuthController.js';
-import { AuthCheckMiddleware } from './controllers/AuthCheckMiddleware.js';
+import { JWTService } from './JWTService.js';
 
 @Module({
     imports: [],
@@ -16,6 +16,6 @@ import { AuthCheckMiddleware } from './controllers/AuthCheckMiddleware.js';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(AuthCheckMiddleware).forRoutes("/");
+        consumer.apply(JWTService.middleware).forRoutes("/");
     }
 }

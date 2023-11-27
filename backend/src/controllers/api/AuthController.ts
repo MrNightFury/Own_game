@@ -23,7 +23,7 @@ export class AuthControler {
         if (!user) {
             res.status(404).json({message: "User not found"});
         } else {
-            res.cookie("jwt", JWTService.generateToken(user.user_login));
+            res.status(200).cookie("jwt", JWTService.generateToken(user.user_login));
         }
     }
 }
