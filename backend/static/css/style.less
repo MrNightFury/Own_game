@@ -1,49 +1,159 @@
-body {
-    div {
-       background-color: blue; 
-    }
-    height: 100vh;
-    overflow-y: hidden;
+* {
+    --accent-color: rgb(34, 34, 181);
+    --background-color: black;
+}
 
-    margin: 0;
+body {
     display: flex;
     flex-direction: column;
-
+    align-items: center;
+    margin: 0;
     background-color: black;
     color: white;
-}
 
-main {
-    display: grid;
-    grid-template: auto 1fr / auto 1fr;
-    grid-template-areas: 
-        "admin game"
-        "panel users";
-}
+    header {
+        display: grid;
+        grid-template: auto auto auto / auto 1fr auto;
+        grid-template-areas:
+            "icon title profile"
+            "icon subtitle profile"
+            "icon nav profile";
+        width: 100%;
+        background-color: var(--accent-color);
+        padding: .5em;
 
-#admin {
-    grid-area: "admin";
+        #icon {
+            margin: 0 1em 0 .5em;
+            height: 5em;
+            grid-area: icon;
+        }
 
-    img {
-        height: 15vh;
+        #title {
+            font-size: 30px;
+        }
+        #subtitle {
+            font-size: 20px;
+        }
+
+        #profileIcon {
+            grid-area: profile;
+            height: 4em;
+            margin: auto 1em auto 1em;
+            cursor: pointer;
+            border-radius: 100%;
+            
+        }
+
+        #navigation {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                position: relative;
+                height: fit-content;
+                margin: 0 .2em 0 .2em;
+                + li::before {
+                    position: relative;
+                    right: .2em;
+                    content: " ";
+                    display: inline-block;
+                    background-color: black;
+                    width: .15em;
+                    height: 1em;
+                }
+                a {
+                    color: white;
+                }
+            }
+            
+        }
+    }
+
+    main {
+        width: 75vw;
+        margin-top: 1em;
+        padding: 1em;
+        border-radius: 1em;
+        background-color: rgba(128, 128, 128, 0.355);
+        backdrop-filter: blur(10px);
     }
 }
 
-#game {
-    grid-area: "game";
-    
-}
+// table {
+//     position: relative;
+//     width: 100%;
 
-#screen {
-    
-}
+//     colgroup {
+//         col {
+//             min-width: fit-content;
+//             width: 100px;
+//         }
+//         col:nth-child(3) {
+//             width: auto;
+//         }
+//     }
 
-#panel {
-    grid-area: "panel";
-    
-}
+//     td {
+//         border: 0em;
+//         margin: 0;
+//         padding: 0;
+//     }
 
-#users {
-    grid-area: "users";
+//     tr {
+//         background-color: gray;
+//     }
+// }
+
+// body {
+//     div {
+//        background-color: blue; 
+//     }
+//     height: 100vh;
+//     overflow-y: hidden;
+
+//     margin: 0;
+//     display: flex;
+//     flex-direction: column;
+
+//     background-color: gray;
+//     color: white;
+// }
+
+// main {
+//     display: grid;
+//     grid-template: auto 1fr / auto 1fr;
+//     grid-template-areas: 
+//         "admin game"
+//         "panel users";
+// }
+
+// #admin {
+//     grid-area: "admin";
+
+//     img {
+//         height: 15vh;
+//     }
+// }
+
+// #game {
+//     grid-area: "game";
     
-}
+// }
+
+// #screen {
+    
+// }
+
+// #panel {
+//     grid-area: "panel";
+    
+// }
+
+// #users {
+//     grid-area: "users";
+    
+// }
