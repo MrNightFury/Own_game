@@ -1,36 +1,50 @@
-// import { loadConfig } from "./Configs.js";
-// import { App } from "./app.js";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./mainModule.js";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import { join } from "path";
+import * as cookieParser from 'cookie-parser';
+// import * as WebSocket from "ws";
 
-// console.log("Loading config...");
-// let config = loadConfig();
-// console.log(JSON.stringify(config));
+// const app = Express();
 
-// var app = new App(config);
-// console.log("Starting");
-// app.start();
+// const server = http.createServer(app);
 
-import * as http from "http";
-import Express from "express";
-import * as WebSocket from "ws";
+// const webSocketServer = new WebSocket.WebSocketServer({ server });
 
-const app = Express();
+// webSocketServer.on('connection', ws => {
+//    ws.on('message', m => {
+//         webSocketServer.clients.forEach(client => client.send(m.toString()));
+//    });
 
-const server = http.createServer(app);
+//    ws.on("error", e => ws.send(e as any));
 
-const webSocketServer = new WebSocket.WebSocketServer({ server });
+//    ws.send('Hi there, I am a WebSocket server');
+// });
 
-webSocketServer.on('connection', ws => {
-   ws.on('message', m => {
-        webSocketServer.clients.forEach(client => client.send(m.toString()));
-   });
+// app.get("/test", (req, res) => {
+//     res.send("asd");
+// })
 
-   ws.on("error", e => ws.send(e as any));
+// server.listen(8999, () => console.log("Server started"))
 
-   ws.send('Hi there, I am a WebSocket server');
-});
-
-app.get("/test", (req, res) => {
-    res.send("asd");
-})
-
-server.listen(8999, () => console.log("Server started"))
+async function bootstrap() {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule).catch(err => {
+        console.log(err);
+    }).then(res => {
+        console.log("App created");
+        return res;
+    });
+    if (!app) {
+        return;
+    }
+    app.use(cookieParser.default());
+    app.useStaticAssets('./static');
+    app.setBaseViewsDir('./views');
+    app.setViewEngine('ejs');
+    console.log("Starting app...");
+    await app.listen(80).catch(err => {
+        console.log(err);
+    });
+}
+bootstrap();
+  
