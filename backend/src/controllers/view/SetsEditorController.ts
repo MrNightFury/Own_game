@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Render, Req, Res } from '@nestjs/common';
 import { SetsRepository } from '../../db/SetsRepository.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
@@ -26,16 +26,24 @@ export class SetsEditorController {
         }
     }
 
+    @Get("new")
+    @Render("setEdit")
+    async createSetPage() {
+        return {
+            id: -1
+        }
+    }
+
     @Get(":id")
     @Render("set")
-    async getSetPage(@Param("id") setId: number, @Body() body: any, @Res() res: Response) {
+    async getSetPage(@Param("id") setId: number, @Req() req: Request, @Res() res: Response) {
         let set = await this.setsRepository.getSet(setId);
         if (!set || !set.set_id) {
             res.status(404).json({Message: "Set not found"});
             return;
         }
-        let author = await this.usersRepository.getUserById(set.set_author_id);
-        let isAuthor = body.logged && body.login == author?.user_login;
+        let isAuthor = req.body.logged && req.body.id == set.set_author_id;
+        console.log(isAuthor)
 
         let rounds = await this.roundsRepository.getRoundsList(set.set_id);
         let categories: {round: Round, categories: Category[]}[] = [];
@@ -46,9 +54,21 @@ export class SetsEditorController {
             }
         }
         return {
+            edit: req.query.edit ?? "",
             canEdit: isAuthor,
             set: set,
             rounds: categories
+        }
+    }
+
+    @Get(":set_id/:round_number/add")
+    @Render("addCategoryIntoSet")
+    async addCategoryPage(@Param("set_id") setId: number, @Param("round_number") roundNumber: number, @Body() body: any) {
+        return {
+            id: body.logged ? body.id : -1,
+            categories: await this.categoriesRepository.getCategoriesWithLogins(),
+            setId: setId,
+            roundNumber: roundNumber
         }
     }
 }

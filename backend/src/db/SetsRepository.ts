@@ -3,6 +3,7 @@ import { ResultSetHeader } from "mysql2";
 import { DBService } from './DBService.js';
 import { User } from './model/User.js';
 import { Set } from './model/Set.js';
+import { AddCategoryRequest } from '../controllers/dto/setDTO.js';
 
 @Injectable()
 export class SetsRepository {
@@ -46,5 +47,16 @@ export class SetsRepository {
             return await this.dbService.getDb()?.query(`insert into sets(set_name, set_description, set_author_id)
             value (?, ?, ?)`, [set.set_name, set.set_description, set.set_author_id]);
         }
+    }
+
+    public async addCategory(req: AddCategoryRequest) {
+        console.log(req);
+        return await this.dbService.getDb()?.query("insert into category_in_round value (?, ?, ?);", 
+                                                    [req.setId, req.roundNumber, req.categoryId]);
+    }
+
+    public async removeCategory(req: AddCategoryRequest) {
+        return await this.dbService.getDb()?.query("delete from category_in_round where set_id=? and round_number=? and category_id=?", 
+                                                    [req.setId, req.roundNumber, req.categoryId]);
     }
 }

@@ -16,14 +16,14 @@
     <% for( let i = 0; i < sets.length; i++ ) { %>
         <tr>
             <td><%= sets[i].set_id %></td>
-            <td><%= sets[i].set_name %></td>
+            <td><a href="sets/<%- sets[i].set_id %>"><%- sets[i].set_name %></a></td>
             <td><%= sets[i].set_description %></td>
             <td>
                 <% if (displayAuthor) { %>
-                    <%= sets[i].set_author_id %>
+                    <%= sets[i].user_login %>
                 <% } %>
                 <% if (userId == sets[i].set_author_id) { %>
-                    (<a href="sets/<%- sets[i].set_id %>">Change</a>)
+                    <span class="you">(you)</span>
                 <% } %>
             </td>
         </tr>

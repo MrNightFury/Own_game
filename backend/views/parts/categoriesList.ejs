@@ -1,0 +1,33 @@
+<% if (addTo) { %>
+    <script src="scripts/setEditor.js" type="text/javascript"></script>
+<% } %>
+<table>
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Author</th>
+    </tr>
+    <% for( let i = 0; i < categories.length; i++ ) { %>
+        <tr>
+            <td><%= categories[i].category_id %></td>
+            <td><a href="categories/<%- categories[i].category_id %>"><%- categories[i].category_name %></a></td>
+            <td>
+                <%= categories[i].user_login %>
+                <% if (user.id == categories[i].user_id) { %>
+                    <span class="you">(you)</span>
+                <% } %>
+            </td>
+            <td>
+                <% if (addTo) { %>
+                    <button onclick="addCategory(+'<%- categories[i].category_id %>', +'<%- addTo.setId %>', +'<%- addTo.roundNumber %>')">Add</button>
+                <% } %>
+            </td>
+        </tr>
+    <% } %>
+</table>

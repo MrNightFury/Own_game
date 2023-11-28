@@ -19,4 +19,17 @@ export class CategoriesRepository {
             return res[0];
         }) ?? [];
     }
+
+    public async getCategoriesList() {
+        return await this.dbService.getDb()?.query<Category[]>("select * from categories;").then(res => {
+            return res[0];
+        }) ?? [];
+    }
+    
+    public async getCategoriesWithLogins() {
+        return await this.dbService.getDb()?.query<Category[]>(`select category_id, user_id, user_login, category_name
+        from categories inner join users on categories.category_author_id = users.user_id`).then(res => {
+            return res[0];
+        }) ?? [];
+    }
 }

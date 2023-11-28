@@ -1,19 +1,58 @@
-#setTitle {
-    color: white;
-    border: none;
-    font-size: 200%;
-    width: auto;
+#setInfo, .infoEditor {
+    display: grid;
+    grid-template: auto auto auto / calc(100% - 5em) auto;
+    grid-template-areas: 
+        "title title"
+        "divider divider"
+        "description button";
+    #setHeader {
+        grid-area: title;
+        #setTitle {
+            padding-right: .5em;
+            color: white;
+            border: none;
+            font-size: 200%;
+            width: auto;
+        }
+        #setId {
+            font-size: 150%;
+            color: gray;
+        }
+    }
+    .divider {
+        grid-area: divider;
+    }
+    #editButton, #saveButton {
+        place-self: end;
+        grid-area: button;
+    }
+    #setDescription {
+        font-size: 125%;
+        display: inline-block;
+        word-break: break-all;
+        grid-area: description;
+    }
+    button {
+        font-size: 150%;
+    }
 }
 
-#setId {
-    font-size: 150%;
-    color: gray;
+.infoEditor {
+    .input {
+        max-width: calc(100% - 2em);
+        display: inline-block;
+    }
+    .textarea {
+        display: block;
+        
+        border: none;
+        color: white;
+        background: none;
+        resize: none;
+        height: auto;
+    }
 }
 
-.editor input {
-    background-color: none;
-    background: none;
-}
 
 .round {
     margin-bottom: 1em;
@@ -32,10 +71,11 @@
     }
 
     ul {
-        margin: 0;
+        // margin: 0;
         // transition: 1s;
+        margin-top: .5em;
         overflow: hidden;
-        height: 0;
+        // height: 0;
 
         li {
             margin-bottom: .5em;

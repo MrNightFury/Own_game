@@ -17,7 +17,3 @@ document.getElementById("loginForm").addEventListener("submit", event => {
         }
     })
 })
-
-function login() {
-    
-}

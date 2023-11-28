@@ -7,41 +7,62 @@
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
+        <% if (canEdit) { %>
+            <script src="scripts/setEditor.js" type="text/javascript"></script>
+        <% } %>
+
         <main class="editor">
-            <div id="setInfo">
-                <div>
-                    <span id="setTitle"><%- set.set_name %></span>
-                    <span id="setId"><%- set.set_id %></span>
+            <% if (edit == "info") { %>
+                <%- include('parts/setInfoEditor', {id: set.set_id}) %>
+            <% } else { %>
+                <div id="setInfo">
+                    <div id="setHeader">
+                        <span id="setTitle"><%- set.set_name %></span>
+                        <span id="setId"><%- set.set_id %></span>
+                    </div>
+                    <div class="divider"></div>
+                    <span id="setDescription">
+                        <%- set.set_description %>
+                    </span>
+                    <% if (canEdit) { %>
+                        <button id="editButton" onclick="location.href = location.href.split('?')[0] + '?edit=info'">Edit</button>
+                    <% } %>
                 </div>
-                <div id="setDescription">
-                    <%- set.set_description %>
-                </div>
-            </div>
+            <% } %>
+
             <div>
                 <% for( let i = 0; i < rounds.length; i++ ) { %>
+                    <% let round = rounds[i].round %>
+                    <% let categories = rounds[i].categories %>
                     <div class="round">
                         <label class="roundHeader" for="toggle_<%- i %>">
-                            <% if (rounds[i].round.round_name) { %>
+                            <% if (round.round_name) { %>
                                 <span class="roundName">
-                                    <%= rounds[i].round.round_name %>
+                                    <%= round.round_name %>
                                 </span>
                             <% } else { %>
                                 <span class="roundNumber">
                                     Round №
-                                    <%= rounds[i].round.round_number %>
-                                    <%= rounds[i].round.round_description %>
+                                    <%= round.round_number %>
+                                    <%= round.round_description %>
                                 </span>
-                                
                             <% } %>
-                            
                         </label>
                         <input id="toggle_<%- i %>" type="checkbox">
                         <ul>
-                            <% if (rounds[i].categories.length == 0) { %>
+                            <% if (categories.length == 0) { %>
                                 <div>Empty round</div>
                             <% } %>
-                            <% for( let j = 0; j < rounds[i].categories.length; j++ ) { %>
-                                <li><%= rounds[i].categories[j].category_name %></li>
+                            <% for( let category of categories ) { %>
+                                <li>
+                                    <a href="categories/<%= category.category_id %>"><%= category.category_name %></a>
+                                    <% if (canEdit) { %>
+                                        <button onclick="removeCategory('<%- set.set_id %>', '<%- round.round_number %>', '<%- category.category_id %>')">Remove</button>
+                                    <% } %>
+                                </li>
+                            <% } %>
+                            <% if (canEdit) { %>
+                                <a href="sets/<%= set.set_id %>/<%= rounds[i].round.round_number %>/add">Add a category</a>
                             <% } %>
                         </ul>
                     </div>

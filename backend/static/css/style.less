@@ -13,12 +13,16 @@ button {
     padding: .25em;
 }
 
-
 .divider {
     border-radius: 1em;;
     background-color: gray;
     height: 2px;
     margin: .5em 0;
+    width: 100%;
+}
+
+a {
+    color: rgb(0, 177, 177);
 }
 
 body {
@@ -83,11 +87,11 @@ body {
                     width: .15em;
                     height: 1em;
                 }
-                a {
-                    color: white;
-                }
             }
             
+        }
+        a {
+            color: white;
         }
     }
 
@@ -103,12 +107,28 @@ body {
     }
 }
 
+tr > td:nth-child(1) {
+    text-align: center;
+}
+
+tr > td:nth-child(4) {
+    text-align: center;
+}
+
 tr > td {
-    min-width: 3em;
+    min-width: 2em;
+    > a {
+        display: inline-block;
+        min-width: 5em;
+    }
 }
 
 tr + tr > td {
     padding-top: .5em;
+}
+
+.you {
+    color: gray;
 }
 
 // table {
