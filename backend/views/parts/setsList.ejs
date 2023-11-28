@@ -1,0 +1,31 @@
+<table>
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <% if (displayAuthor) { %>
+            <th>Set author</th>
+        <% } %>
+    </tr>
+    <% for( let i = 0; i < sets.length; i++ ) { %>
+        <tr>
+            <td><%= sets[i].set_id %></td>
+            <td><%= sets[i].set_name %></td>
+            <td><%= sets[i].set_description %></td>
+            <td>
+                <% if (displayAuthor) { %>
+                    <%= sets[i].set_author_id %>
+                <% } %>
+                <% if (userId == sets[i].set_author_id) { %>
+                    (<a href="sets/<%- sets[i].set_id %>">Change</a>)
+                <% } %>
+            </td>
+        </tr>
+    <% } %>
+</table>

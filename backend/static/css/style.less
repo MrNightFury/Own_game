@@ -3,6 +3,24 @@
     --background-color: black;
 }
 
+button {
+    height: fit-content;
+    color: rgb(33, 112, 185);
+    text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: .25em;
+}
+
+
+.divider {
+    border-radius: 1em;;
+    background-color: gray;
+    height: 2px;
+    margin: .5em 0;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -20,7 +38,7 @@ body {
             "icon nav profile";
         width: 100%;
         background-color: var(--accent-color);
-        padding: .5em;
+        padding: .5em 0 .5em;
 
         #icon {
             margin: 0 1em 0 .5em;
@@ -74,13 +92,23 @@ body {
     }
 
     main {
-        width: 75vw;
-        margin-top: 1em;
-        padding: 1em;
-        border-radius: 1em;
-        background-color: rgba(128, 128, 128, 0.355);
-        backdrop-filter: blur(10px);
+        > div {
+            width: 75vw;
+            margin-top: 1em;
+            padding: 1em;
+            border-radius: 1em;
+            background-color: rgba(128, 128, 128, 0.355);
+            backdrop-filter: blur(10px);
+        }
     }
+}
+
+tr > td {
+    min-width: 3em;
+}
+
+tr + tr > td {
+    padding-top: .5em;
 }
 
 // table {

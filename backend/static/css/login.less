@@ -3,16 +3,44 @@
     flex-direction: column;
     align-items: center;
 
-    input {
+    div {
+        position: relative;
+        width: 30%;
+
+        input {
+            font-size: 150%;
+            width: calc(100% - 1.5em);
+            background-color: gray;
+            padding: .5em;
+            margin: .25em;
+            border-radius: 1em;
+
+            &::placeholder {
+                color: rgb(62, 62, 62);
+            }
+        }
+        label {
+            display: none;
+            font-size: 150%;
+            color: rgb(198, 0, 0);
+            width: 10em;
+            position: absolute;
+            top: calc(50% - .5em);
+            left: calc(100% + 2em);
+        }
+    }
+
+    > input {
+        transition: .5s;
         font-size: 150%;
-        width: 25%;
         background-color: gray;
         padding: .5em;
         margin: .25em;
         border-radius: 1em;
-
-        &::placeholder {
-            color: black;
+        box-shadow: .15em .15em .5em .01em;
+        &:hover {
+            box-shadow: .15em .15em .5em .01em inset;
+            background-color: blue;
         }
     }
 }

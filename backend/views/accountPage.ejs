@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/account.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра – Главная</title>
+    </head>
+    <body>
+        <%- include('parts/header', {subtitle: "Text"}) %>
+        <main>
+            <div id="userInfo">
+                <div><%- user.user_login %></div>
+                <div><%- user.user_id %></div>
+                <img src="images/default_avatar.jpg">
+                <div id="menu">
+                    <button id="exitButton" onclick="
+                        document.cookie = 'jwt=;max-age=-1;path=/'
+                        location.href = 'account/login'
+                    ">Exit</button>
+                </div>
+            </div>
+            <div>
+                <%- include('parts/setsList', {
+                    displayAuthor: false,
+                    sets: sets,
+                    userId: user.user_id
+                }) %>
+                <div class="divider"></div>
+                <button id="createSetButton">Create new set</button>
+            </div>
+        </main>
+    </body>
+</html>

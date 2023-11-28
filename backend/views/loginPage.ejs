@@ -8,11 +8,20 @@
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
         <main>
-            <form id="loginForm" method="post" action="./auth/login">
-                <input type="text" placeholder="Login" required>
-                <input type="password" placeholder="Password" required>
-                <input type="submit">
-            </form>
+            <div>
+                <form id="loginForm">
+                    <div id="loginInput">
+                        <input name="login" type="text" placeholder="Login" required>
+                        <label for="login">User not found</label>
+                    </div>
+                    <div id="passwordInput">
+                        <input name="password" type="password" placeholder="Password" required>
+                        <label for="password">Incorrect password</label>
+                    </div>
+                    <input type="submit">
+                </form>
+            </div>
         </main>
+        <script src="scripts/netFunctions.js" type="text/javascript"></script>
     </body>
 </html>

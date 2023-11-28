@@ -1,0 +1,54 @@
+#setTitle {
+    color: white;
+    border: none;
+    font-size: 200%;
+    width: auto;
+}
+
+#setId {
+    font-size: 150%;
+    color: gray;
+}
+
+.editor input {
+    background-color: none;
+    background: none;
+}
+
+.round {
+    margin-bottom: 1em;
+    height: fit-content;
+
+    .roundHeader {
+        display: block;
+        font-size: 150%;
+        padding: .25em .5em .25em .5em;
+        background-color: rgb(91, 91, 91);
+        border-radius: 1em;
+
+        .roundNumber {
+            color: rgb(189, 189, 189);
+        }
+    }
+
+    ul {
+        margin: 0;
+        // transition: 1s;
+        overflow: hidden;
+        height: 0;
+
+        li {
+            margin-bottom: .5em;
+        }
+    }
+
+    input {
+        display: none;
+    }
+
+    input:checked + ul {
+        margin-top: .5em;
+        height: auto;
+    }
+}
+
