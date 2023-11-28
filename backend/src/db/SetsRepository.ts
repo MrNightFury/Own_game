@@ -16,24 +16,35 @@ export class SetsRepository {
         }) ?? [];
     }
 
-    // public async createUser(user: User) {
-    //     return await this.dbService.getDb()?.query<ResultSetHeader>(
-    //         "insert into users(user_id, user_name, user_password, user_avatar_path) value(?, ?, ?, ?)",
-    //         [user.user_id, user.user_name, user.user_password, user.user_avatar_path]
-    //     ).catch(err => {
-    //         return {"message": err.message};
-    //     }).then(res => {
-    //         return res
-    //     });
-    // }
+    public async getSetsListWithLogins() {
+        return await this.dbService.getDb()?.query<Set[]>(`
+            select set_id, set_name, set_description, set_author_id, user_login
+            from sets inner join users on sets.set_author_id=users.user_id
+            order by set_id`).then(res => {
+            return res[0];
+        }) ?? [];
+    }
 
-    // public async deleteUser(id: number) {
-    //     return this.dbService.getDb()?.query<ResultSetHeader>(
-    //         "delete from users where user_id=?", [id]
-    //     ).catch(err => {
-    //         return {"message": err.message};
-    //     }).then(res => {
-    //         return res
-    //     });
-    // }
+    public async getSet(id: number) {
+        return await this.dbService.getDb()?.query<Set[]>("select * from sets where set_id=?", [id]).then(res => {
+            return res[0][0];
+        });
+    }
+
+    public async getSetsByAuthor(id: number) {
+        return await this.dbService.getDb()?.query<Set[]>("select * from sets where set_author_id=?", [id]).then(res => {
+            return res[0]
+        }) ?? [];
+    }
+
+    public async saveSet(set: Set) {
+        if (set.set_id) {
+            return await this.dbService.getDb()?.query(`update sets set
+                set_name = ?, set_description = ?
+            where set_id=?`, [set.set_name, set.set_description, set.set_id]);
+        } else {
+            return await this.dbService.getDb()?.query(`insert into sets(set_name, set_description, set_author_id)
+            value (?, ?, ?)`, [set.set_name, set.set_description, set.set_author_id]);
+        }
+    }
 }

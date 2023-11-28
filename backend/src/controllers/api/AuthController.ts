@@ -20,10 +20,12 @@ export class AuthControler {
         }).then(res => {
             return res;
         });
-        if (!user) {
+        if (!user || !user.user_id) {
             res.status(404).json({message: "User not found"});
+        } else if (user.user_password != req.password) {
+            res.status(401).json({message: "Incorrect password"});
         } else {
-            res.status(200).cookie("jwt", JWTService.generateToken(user.user_login));
+            res.status(200).cookie("jwt", JWTService.generateToken(user.user_id));
         }
     }
 }

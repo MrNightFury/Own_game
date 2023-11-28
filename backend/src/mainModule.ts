@@ -8,14 +8,19 @@ import { SetsRepository } from './db/SetsRepository.js';
 import { AccountControler } from './controllers/view/AccountController.js';
 import { AuthControler } from './controllers/api/AuthController.js';
 import { JWTService } from './JWTService.js';
+import { RoundsRepository } from './db/RoundsRepository.js';
+import { CategoriesRepository } from './db/CategoriesRepository.js';
+import { SetsControler } from './controllers/api/SetsController.js';
 
 @Module({
     imports: [],
-    controllers: [UsersController, SetsEditorController, AccountControler, AuthControler],
-    providers: [DBService, ConfigService, UsersRepository, SetsRepository],
+    controllers: [UsersController, SetsEditorController, AccountControler, AuthControler, SetsControler],
+    providers: [DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(JWTService.middleware).forRoutes("/");
+        consumer.apply(JWTService.middleware)
+            .exclude("auth/(.*)")
+            .forRoutes("/");
     }
 }

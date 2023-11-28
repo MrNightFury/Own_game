@@ -17,6 +17,12 @@ export class UsersRepository {
         }) ?? [];
     }
 
+    public async getUserById(id: number) {
+        return await this.dbService.getDb()?.query<User[]>("select * from users where user_id=?", [id]).then(res => {
+            return res[0][0];
+        })
+    }
+
     public async getUser(login: string) {
         return await this.dbService.getDb()?.query<User[]>("select * from users where user_login=?", [login]).then(res => {
             return res[0][0];

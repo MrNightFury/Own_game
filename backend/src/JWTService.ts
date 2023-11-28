@@ -11,6 +11,7 @@ export class JWTService {
     }
 
     public static middleware(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body);
         let token = req.cookies["jwt"];
         if (token) {
             let result = JWTService.verify(token);
@@ -19,7 +20,7 @@ export class JWTService {
                 return;
             } else {
                 req.body.logged = true;
-                req.body.login = result;
+                req.body.id = result;
             }
         } else {
             req.body.logged = false;
@@ -42,7 +43,7 @@ export class JWTService {
                 console.log("Error: " + decoded)
                 return false;
             }
-            return decoded.login;
+            return decoded.id;
         }
     }
 
@@ -68,8 +69,8 @@ export class JWTService {
         }
     }
 
-    public static generateToken(login: string) {
-        return jwt.sign({login: login}, this.secretKey, {expiresIn: "12h"});
+    public static generateToken(id: number) {
+        return jwt.sign({id: id}, this.secretKey, {expiresIn: "12h"});
     }
 
     public static encryptPassword(password: string) {
