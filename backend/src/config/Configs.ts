@@ -3,6 +3,7 @@ import fs from "fs";
 export interface Config {
     db: DBConfig;
     jwt: JWTConfig;
+    fileStorage: FileStorageConfig;
 }
 
 export interface JWTConfig {
@@ -14,6 +15,11 @@ export interface DBConfig {
     host: string;
     password: string;
     port: number;
+}
+
+export interface FileStorageConfig {
+    host: string;
+    port: string;
 }
 
 export function loadConfig() {
@@ -28,6 +34,10 @@ export function loadConfig() {
         jwt: {
             secret: process.env.JWT_SECRET || config.jwt.secret,
         },
+        fileStorage: {
+            host: process.env.FILE_STORAGE_URL || config.fileStorage.host,
+            port: process.env.FILE_STORAGE_PORT || config.fileStorage.port,
+        }
     }
     return config;
 }

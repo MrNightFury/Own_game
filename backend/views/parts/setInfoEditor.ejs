@@ -1,8 +1,8 @@
 <script>var set_id = +"<%- id %>" </script>
 <div id="setInfo" class="infoEditor">
-    <div id="setHeader">
-        <span class="input" id="setTitle" contenteditable><%- id == -1 ? "Default name" : set.set_name %></span>
-        <span id="setId"><%- id == -1 ? "new" : id %></span>
+    <div id="setHeader" class="header">
+        <span class="input title" id="setTitle" contenteditable><%- id == -1 ? "Default name" : set.set_name %></span>
+        <span id="setId" class="id"><%- id == -1 ? "new" : id %></span>
     </div>
     <div class="divider"></div>
     <span class="textarea" id="setDescription" contenteditable><%- id == -1 ? "Default description" : set.set_description %></span>

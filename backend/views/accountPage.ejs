@@ -8,6 +8,7 @@
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
         <main>
+            <script src="scripts/account.js" type="text/javascript"></script>
             <div id="userInfo">
                 <div><%- user.user_login %></div>
                 <div><%- user.user_id %></div>
@@ -19,14 +20,35 @@
                     ">Exit</button>
                 </div>
             </div>
-            <div>
-                <%- include('parts/setsList', {
-                    displayAuthor: false,
-                    sets: sets,
-                    userId: user.user_id
-                }) %>
+            <div id="content">
+                <input id="setsSelector" name="page" type="radio" checked/>
+                <label for="setsSelector">Sets</label>
+                <input id="categoriesSelector" name="page" type="radio"/>
+                <label for="categoriesSelector">Categories</label>
                 <div class="divider"></div>
-                <button id="createSetButton" onclick="location.href='sets/new'">Create new set</button>
+                <div id="sets">
+                    <%- include('parts/setsList', {
+                        displayAuthor: false,
+                        sets: sets,
+                        userId: user.user_id
+                    }) %>
+                    <div class="divider"></div>
+                    <button id="createSetButton" class="createButton" onclick="location.href='sets/new'">Create new set</button>
+                </div>
+                <div id="categories">
+                    <%- include('parts/categoriesList', {
+                        user: {
+                            id: user.user_id
+                        },
+                        categories: categories,
+                        addTo: false,
+
+                        displayAuthor: false
+                    }) %>
+                    <div class="divider"></div>
+                    <button id="createCategoryButton" class="createButton" onclick="createCategory()">Create new category</button>
+                </div>
+                
             </div>
         </main>
     </body>

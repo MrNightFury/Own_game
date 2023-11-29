@@ -10,7 +10,6 @@ import { Round } from '../../db/model/Round.js';
 @Controller("sets")
 export class SetsEditorController {
     constructor(private readonly setsRepository: SetsRepository,
-                private readonly usersRepository: UsersRepository,
                 private readonly roundsRepository: RoundsRepository,
                 private readonly categoriesRepository: CategoriesRepository) {
         console.log("Sets editor controller loaded");
@@ -68,7 +67,8 @@ export class SetsEditorController {
             id: body.logged ? body.id : -1,
             categories: await this.categoriesRepository.getCategoriesWithLogins(),
             setId: setId,
-            roundNumber: roundNumber
+            roundNumber: roundNumber,
+            displayAuthor: true
         }
     }
 }

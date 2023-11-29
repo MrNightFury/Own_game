@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/editor.less">
+        <link rel="stylesheet/less" type="text/css" href="css/question.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра – Главная</title>
+    </head>
+    <body>
+        <%- include('parts/header', {subtitle: "Text"}) %>
+        <script>var category_id = +'<%- category.category_id %>';</script>
+        
+        <% if (canEdit) { %>
+            <script src="scripts/categoryEditor.js" type="text/javascript"></script>
+        <% } %>
+
+        <main class="editor">
+            <div class="infoEditor">
+                <% if (edit == "info") { %>
+                    <div class="header">
+                        <span id="categoryTitle" class="title input" contenteditable><%- category.category_name %></span>
+                        <span id="categoryId" class="id"><%- category.category_id %></span>
+                        <button id="saveButton" onclick="saveCategory()">Сохранить</button>
+                    </div>
+                <% } else { %>
+                    <div class="header">
+                        <span id="title" class="title"><%- category.category_name %></span>
+                        <span id="id" class="id"><%- category.category_id %></span>
+                        <% if (canEdit) { %>
+                            <button id="editButton" onclick="edit('info')">Изменить</button>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div id="questionsList">
+                <% for (let question of questions) { %>
+                    <%- include('parts/question', {
+                        question: question,
+                        canEdit: canEdit,
+                        edit: edit
+                    }) %>
+                <% }; %> 
+                <button id="addQuestionButton" onclick="addDefaultQuestion()">Создать вопрос</button>
+            </div>
+
+            <div>
+                <% if (canEdit) { %>
+                    <button id="deleteButton" onclick="deleteCategory('<%- category.category_id %>')">Удалить категорию</button>
+                <% } %>
+            </div>
+        </main>
+    </body>
+</html>

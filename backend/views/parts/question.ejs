@@ -1,0 +1,29 @@
+<div class="question">
+    <% var numb = question.question_number; %>
+    <div class="questionHeader">
+        <span class="questionId"><%- question.question_number %></span>
+        <% if (edit == question.question_number) { %>
+            <span class="questionTitle" id="title<%- numb%>" contenteditable><%- question.question_title || "Unnamed question" %></span>
+            <button class="deleteQuestionButton" onclick="deleteQuestion(+'<%- question.question_number %>')">Удалить</button>
+            <button class="saveQuestionButton" onclick="saveQuestion(+'<%- question.question_number %>')">Сохранить</button>
+        <% } else { %>
+            <span class="questionTitle"><%- question.question_title || "Unnamed question" %></span>
+            <button class="editQuestionButton" onclick="edit(+'<%- question.question_number %>')">Изменить</button>
+        <% } %>
+    </div>
+    
+    <div class="questionContent">
+        <% if (edit == question.question_number) { %>
+            <div class="questionText" id="text<%- numb%>" contenteditable><%- question.question_text || "No text" %></div>
+            <div class="divider"></div>
+            <div class="questionAnswer">
+                Ответ:
+                <span id="ans<%- numb%>" contenteditable><%- question.question_answer %></span>
+            </div>
+        <% } else { %>
+            <div class="questionText"><%- question.question_text || "No text" %></div>
+            <div class="divider"></div>
+            <div class="questionAnswer">Ответ: <%- question.question_answer %></div>
+        <% } %>
+    </div>
+</div>

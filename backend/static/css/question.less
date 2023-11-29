@@ -1,0 +1,42 @@
+.question {
+    + .question {
+        margin-top: 1em;
+    }
+    .questionHeader {
+        // display: grid;
+        // grid-template-columns: auto 1fr auto;
+        display: flex;
+        font-size: 175%;
+        padding: .1em .5em;
+        border-radius: .5em;
+        background-color: rgb(76, 76, 76);
+
+        .questionId {
+            color: rgb(172, 172, 172);
+            font-size: 75%;
+            margin-right: .5em;
+            align-self: center;
+        }
+
+        .questionTitle {
+            align-self: center;
+        }
+
+        .deleteQuestionButton, .editQuestionButton, .saveQuestionButton {
+            font-size: 75%;
+        }
+
+        .deleteQuestionButton, .editQuestionButton {
+            margin-left: auto;
+        }
+
+        .deleteQuestionButton {
+            color: red;
+        }
+    }
+
+    .questionContent {
+        font-size: 125%;
+        padding: .5em;
+    }
+}

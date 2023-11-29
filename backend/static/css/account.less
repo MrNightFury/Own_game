@@ -27,6 +27,32 @@
     }
 }
 
-#createSetButton {
-    font-size: 120%;
+#content {
+    input[type="radio"] {
+        display: none;
+        + label {
+            cursor: pointer;
+            font-size: 150%;
+            padding: .5em;
+            padding-bottom: .4em;
+        }
+    }
+    input[type="radio"]:checked + label {
+        background: linear-gradient(rgba(255, 255, 255, 0), gray);
+    }
+
+    #categories, #sets {
+        display: none;
+    }
+
+    #setsSelector:checked ~ #sets {
+        display: block;
+    }
+    #categoriesSelector:checked ~ #categories {
+        display: block;
+    }
+
+    .createButton {
+        font-size: 120%;
+    }
 }

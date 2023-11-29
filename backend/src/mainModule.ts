@@ -12,14 +12,18 @@ import { RoundsRepository } from './db/RoundsRepository.js';
 import { CategoriesRepository } from './db/CategoriesRepository.js';
 import { SetsControler } from './controllers/api/SetsController.js';
 import { CategoriesEditorController } from './controllers/view/CategoriesEditorController.js';
+import { CategoriesControler } from './controllers/api/CategoriesController.js';
+import { QuestionsRepository } from './db/QuestionsRepository.js';
 
 @Module({
     imports: [],
     controllers: [
-        UsersController, AuthControler, SetsControler,
+        UsersController, AuthControler, SetsControler, CategoriesControler,
         AccountControler, SetsEditorController, CategoriesEditorController
     ],
-    providers: [DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository],
+    providers: [
+        DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository
+    ],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

@@ -11,7 +11,9 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
-        <th>Author</th>
+        <% if (displayAuthor) { %>
+            <th>Set author</th>
+        <% } %>
     </tr>
     <% for( let i = 0; i < categories.length; i++ ) { %>
         <tr>
@@ -23,11 +25,11 @@
                     <span class="you">(you)</span>
                 <% } %>
             </td>
-            <td>
-                <% if (addTo) { %>
+            <% if (addTo) { %>
+                <td>
                     <button onclick="addCategory(+'<%- categories[i].category_id %>', +'<%- addTo.setId %>', +'<%- addTo.roundNumber %>')">Add</button>
-                <% } %>
-            </td>
+                </td>
+            <% } %>
         </tr>
     <% } %>
 </table>

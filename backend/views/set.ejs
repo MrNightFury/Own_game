@@ -7,6 +7,8 @@
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
+        <script>var set_id = +'<%- set.set_id %>'</script>
+        
         <% if (canEdit) { %>
             <script src="scripts/setEditor.js" type="text/javascript"></script>
         <% } %>
@@ -16,16 +18,16 @@
                 <%- include('parts/setInfoEditor', {id: set.set_id}) %>
             <% } else { %>
                 <div id="setInfo">
-                    <div id="setHeader">
-                        <span id="setTitle"><%- set.set_name %></span>
-                        <span id="setId"><%- set.set_id %></span>
+                    <div id="setHeader" class="header">
+                        <span id="setTitle" class="title"><%- set.set_name %></span>
+                        <span id="setId" class="id"><%- set.set_id %></span>
                     </div>
                     <div class="divider"></div>
                     <span id="setDescription">
                         <%- set.set_description %>
                     </span>
                     <% if (canEdit) { %>
-                        <button id="editButton" onclick="location.href = location.href.split('?')[0] + '?edit=info'">Edit</button>
+                        <button id="editButton" onclick="edit('info')">Изменить</button>
                     <% } %>
                 </div>
             <% } %>
@@ -36,19 +38,28 @@
                     <% let categories = rounds[i].categories %>
                     <div class="round">
                         <label class="roundHeader" for="toggle_<%- i %>">
-                            <% if (round.round_name) { %>
+                            <% if (edit == round.round_number) { %>
+                                <span id="roundName<%- i + 1 %>" class="roundName" contenteditable><%= round.round_name ? round.round_name : "Default name" %></span>
+                            <% } else if (round.round_name) { %>
                                 <span class="roundName">
                                     <%= round.round_name %>
                                 </span>
                             <% } else { %>
                                 <span class="roundNumber">
-                                    Round №
+                                    Раунд №
                                     <%= round.round_number %>
-                                    <%= round.round_description %>
+                                    <%# round.round_description %>
                                 </span>
+                            <% } %>
+                            <% if (edit == round.round_number) { %>
+                                <button id="deleteRoundButton" onclick="deleteRound(+'<%- round.round_number %>')">Удалить</button>
+                                <button id="saveRoundButton" onclick="saveRoundName(+'<%- round.round_number %>')">Сохранить</button>
+                            <% } else { %>
+                                <button id="editRoundButton" onclick="edit(+'<%- round.round_number %>')">Изменить</button>
                             <% } %>
                         </label>
                         <input id="toggle_<%- i %>" type="checkbox">
+
                         <ul>
                             <% if (categories.length == 0) { %>
                                 <div>Empty round</div>
@@ -66,6 +77,12 @@
                             <% } %>
                         </ul>
                     </div>
+                <% } %>
+                <button id="addRoundButton" onclick="addRound()">Добавить раунд</button>
+            </div>
+            <div>
+                <% if (canEdit) { %>
+                    <button id="deleteButton" onclick="deleteSet('<%- set.set_id %>')">Удалить набор</button>
                 <% } %>
             </div>
         </main>

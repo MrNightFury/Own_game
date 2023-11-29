@@ -7,9 +7,16 @@
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
-        <script src="scripts/setEditor.js" type="text/javascript"></script>
         <main>
-            <%- include('parts/setInfoEditor') %>
+            <div>
+                <%- include('parts/categoriesList', {
+                    user: {
+                        id: id
+                    },
+                    categories: categories,
+                    addTo: false
+                }) %>
+            </div>
         </main>
     </body>
 </html>

@@ -1,6 +1,15 @@
 * {
     --accent-color: rgb(34, 34, 181);
     --background-color: black;
+    --light-gray-color: rgb(91, 91, 91);
+    --aqua-color: rgb(0, 177, 177);
+}
+
+[contenteditable] {
+    display: inline-block;
+    position: relative;
+    min-width: 10em;
+    text-decoration: underline;
 }
 
 button {
@@ -15,8 +24,9 @@ button {
 
 .divider {
     border-radius: 1em;;
-    background-color: gray;
-    height: 2px;
+    // background-color: gray;
+    background-color: var(--light-gray-color);
+    height: 3px;
     margin: .5em 0;
     width: 100%;
 }

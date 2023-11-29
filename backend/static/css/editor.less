@@ -1,22 +1,28 @@
-#setInfo, .infoEditor {
+#setInfo, .infoEditor, #info {
     display: grid;
-    grid-template: auto auto auto / calc(100% - 5em) auto;
+    grid-template: auto auto auto / calc(100% - 7.5em) auto;
     grid-template-areas: 
         "title title"
         "divider divider"
         "description button";
-    #setHeader {
+
+    .header {
+        display: flex;
+        align-items: end;
         grid-area: title;
-        #setTitle {
+        .title {
             padding-right: .5em;
             color: white;
             border: none;
             font-size: 200%;
             width: auto;
         }
-        #setId {
+        .id {
             font-size: 150%;
             color: gray;
+        }
+        #editButton, #saveButton {
+            margin-left: auto;
         }
     }
     .divider {
@@ -36,6 +42,8 @@
         font-size: 150%;
     }
 }
+
+
 
 .infoEditor {
     .input {
@@ -59,23 +67,34 @@
     height: fit-content;
 
     .roundHeader {
-        display: block;
+        display: flex;
         font-size: 150%;
         padding: .25em .5em .25em .5em;
-        background-color: rgb(91, 91, 91);
-        border-radius: 1em;
+        // background-color: rgb(91, 91, 91);
+        background-color: var(--light-gray-color);
+        border-radius: .5em;
 
         .roundNumber {
             color: rgb(189, 189, 189);
+        }
+
+        #editRoundButton, #saveRoundButton, #deleteRoundButton {
+            font-size: 75%;
+        }
+        #editRoundButton, #deleteRoundButton {
+            margin-left: auto;
+        }
+        #deleteRoundButton {
+            color: red;
         }
     }
 
     ul {
         // margin: 0;
         // transition: 1s;
+        // height: 0;
         margin-top: .5em;
         overflow: hidden;
-        // height: 0;
 
         li {
             margin-bottom: .5em;
@@ -92,3 +111,20 @@
     }
 }
 
+#addRoundButton {
+    font-size: 100%;
+}
+
+#addQuestionButton {
+    font-size: 125%;
+}
+
+div:has(#deleteButton) {
+    display: flex;
+
+    #deleteButton {
+        font-size: 150%;
+        color: red;
+        margin: 0 0 0 auto;
+    }
+}
