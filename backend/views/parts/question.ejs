@@ -1,5 +1,5 @@
-<div class="question">
-    <% var numb = question.question_number; %>
+<% var numb = question.question_number; %>
+<div class="question" id="q<%- numb %>">
     <div class="questionHeader">
         <span class="questionId"><%- question.question_number %></span>
         <% if (edit == question.question_number) { %>

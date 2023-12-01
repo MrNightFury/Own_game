@@ -36,7 +36,7 @@ function deleteCategory() {
     })
 }
 
-function addDefaultQuestion() {
+function addDefaultQuestion(numb) {
     let body = {
         question_text: "Question",
         question_answer: "Answer"
@@ -52,6 +52,7 @@ function addDefaultQuestion() {
     }).then(async res => {
         if (res.status == 201) {
             location.reload();
+            // location.href = location.href + "#q" + 0;
         }
     })
 }

@@ -3,7 +3,7 @@
     <head>
         <link rel="stylesheet/less" type="text/css" href="css/editor.less">
         <%- include('parts/head'); %>
-        <title>Своя игра – Главная</title>
+        <title>Своя игра – <%- set.set_name %></title>
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
@@ -51,10 +51,10 @@
                                     <%# round.round_description %>
                                 </span>
                             <% } %>
-                            <% if (edit == round.round_number) { %>
+                            <% if (edit == round.round_number && canEdit) { %>
                                 <button id="deleteRoundButton" onclick="deleteRound(+'<%- round.round_number %>')">Удалить</button>
                                 <button id="saveRoundButton" onclick="saveRoundName(+'<%- round.round_number %>')">Сохранить</button>
-                            <% } else { %>
+                            <% } else if (canEdit) { %>
                                 <button id="editRoundButton" onclick="edit(+'<%- round.round_number %>')">Изменить</button>
                             <% } %>
                         </label>
@@ -78,13 +78,15 @@
                         </ul>
                     </div>
                 <% } %>
-                <button id="addRoundButton" onclick="addRound()">Добавить раунд</button>
-            </div>
-            <div>
                 <% if (canEdit) { %>
-                    <button id="deleteButton" onclick="deleteSet('<%- set.set_id %>')">Удалить набор</button>
+                    <button id="addRoundButton" onclick="addRound()">Добавить раунд</button>
                 <% } %>
             </div>
+            <% if (canEdit) { %>
+                <div>
+                    <button id="deleteButton" onclick="deleteSet('<%- set.set_id %>')">Удалить набор</button>
+                </div>
+            <% } %>
         </main>
     </body>
 </html>

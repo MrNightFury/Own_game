@@ -3,7 +3,7 @@
     <head>
         <link rel="stylesheet/less" type="text/css" href="css/editor.less">
         <%- include('parts/head'); %>
-        <title>Своя игра – Главная</title>
+        <title>Своя игра – Категории</title>
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
@@ -14,7 +14,8 @@
                         id: id
                     },
                     categories: categories,
-                    addTo: false
+                    addTo: false,
+                    displayAuthor: true
                 }) %>
             </div>
         </main>

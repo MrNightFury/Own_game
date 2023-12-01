@@ -4,7 +4,7 @@
         <link rel="stylesheet/less" type="text/css" href="css/editor.less">
         <link rel="stylesheet/less" type="text/css" href="css/question.less">
         <%- include('parts/head'); %>
-        <title>Своя игра – Главная</title>
+        <title>Своя игра – <%- category.category_name %></title>
     </head>
     <body>
         <%- include('parts/header', {subtitle: "Text"}) %>
@@ -41,7 +41,7 @@
                         edit: edit
                     }) %>
                 <% }; %> 
-                <button id="addQuestionButton" onclick="addDefaultQuestion()">Создать вопрос</button>
+                <button id="addQuestionButton" onclick="addDefaultQuestion(+'<%- questions.length %>' + 1)">Создать вопрос</button>
             </div>
 
             <div>
