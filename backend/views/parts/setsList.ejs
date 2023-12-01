@@ -21,9 +21,9 @@
             <td>
                 <% if (displayAuthor) { %>
                     <%= sets[i].user_login %>
-                <% } %>
-                <% if (userId == sets[i].set_author_id) { %>
-                    <span class="you">(you)</span>
+                    <% if (userId == sets[i].set_author_id) { %>
+                        <span class="you">(you)</span>
+                    <% } %>
                 <% } %>
             </td>
         </tr>

@@ -26,14 +26,33 @@
                             return "(Админ)";
                     }
                 }(user.user_role); %></span></div>
-                <img src="images/default_avatar.jpg">
+
+                <% if (user.user_avatar_id) { %>
+                    <img src="files/<%- user.user_avatar_id %>">
+                <% } else { %>
+                    <img src="images/default_avatar.jpg">
+                <% } %>
                 <div id="menu">
+                    <% if (edit == "info") { %>
+                        <button id="saveButton" onclick="saveInfo()">Сохранить</button>
+                    <% } else { %>
+                        <button id="editButton" onclick="edit('info')">Изменить</button>
+                    <% } %>
+                    
                     <button id="exitButton" onclick="
                         document.cookie = 'jwt=;max-age=-1;path=/'
                         location.href = 'account/login'
                     ">Exit</button>
                 </div>
             </div>
+
+            <% if (edit == "info") { %>
+                <div id="editMenu" method="post" >
+                    <label for="avatarInput">Изменить аватар</label>
+                    <input id="avatarInput" type="file" accept=".png,.jpg,.jpeg" title="asd"/>
+                </div>
+            <% } %>
+
             <div id="content">
                 <input id="setsSelector" name="page" type="radio" checked/>
                 <label for="setsSelector">Sets</label>

@@ -7,7 +7,7 @@
         <title>Своя игра – <%- category.category_name %></title>
     </head>
     <body>
-        <%- include('parts/header', {subtitle: "Text"}) %>
+        <%- include('parts/header', {subtitle: "Категория"}) %>
         <script>var category_id = +'<%- category.category_id %>';</script>
         
         <% if (canEdit) { %>
