@@ -16,8 +16,10 @@ export class UsersController {
     }
 
     @Post()
-    createUser(@Body() user: User) {
-        return this.repository.createUser(user);
+    async createUser(@Body() user: User) {
+        return this.repository.addUser(user);
+    }
+
     }
 
     @Delete(":id")

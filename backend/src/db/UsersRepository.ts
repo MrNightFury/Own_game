@@ -31,10 +31,26 @@ export class UsersRepository {
         })
     }
 
-    public async createUser(user: User) {
+    public async createUser(login: string, password: string) {
         return await this.dbService.getDb()?.query<ResultSetHeader>(
-            "insert into users(user_id, user_login, user_password, user_avatar_path) value(?, ?, ?, ?)",
-            [user.user_id, user.user_login, user.user_password, user.user_avatar_path]
+            "insert into users(user_login, user_password) value(?, ?)",
+            [login, password]
+        ).then(res => {
+            return res[0];
+        });
+    }
+
+    public async addUser(user: User) {
+        return await this.dbService.getDb()?.query<ResultSetHeader>(
+            "insert into users(user_login, user_password) value(?, ?)",
+            [user.user_login, user.user_password]
+        ).catch(err => {
+            return {"message": err.message};
+        }).then(res => {
+            return res
+        });
+    }
+
         ).catch(err => {
             return {"message": err.message};
         }).then(res => {

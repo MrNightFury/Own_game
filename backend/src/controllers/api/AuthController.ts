@@ -27,4 +27,27 @@ export class AuthControler {
             res.status(200).cookie("jwt", JWTService.generateToken(user.user_id));
         }
     }
+
+    @Post("register")
+    async register(@Body() body: AuthRequest, @Res({passthrough: true}) res: Response) {
+        if (!CanHelper.validLogin(body.login)) {
+            res.status(403).json({
+                message: "Incorrect login"
+            })
+            return;
+        }
+        let user = await this.repository.getUser(body.login);
+        if (user) {
+            res.status(409).json({
+                message: "User already exist"
+            })
+            return;
+        }
+        let result = await this.repository.createUser(body.login, body.password);
+        if (result?.affectedRows) {
+            res.status(201).cookie("jwt", JWTService.generateToken(result.insertId));
+        } else {
+            res.sendStatus(400);
+        }
+    }
 }

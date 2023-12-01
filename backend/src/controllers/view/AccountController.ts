@@ -21,6 +21,15 @@ export class AccountControler {
         }
     }
 
+    @Get("register")
+    @Render("registrationPage")
+    async getRegisterPage(@Req() req: Request, @Res() res: Response) {
+        if (req.body.logged) {
+            let user = await this.userRepository.getUserById(req.body.id);
+            res.redirect("./" + user?.user_login);
+        }
+    }
+
     @Get()
     async rediderctToAccount(@Req() req: Request, @Res() res: Response) {
         if (!req.body.logged) {
@@ -40,6 +49,10 @@ export class AccountControler {
         let user = await this.userRepository.getUserById(req.body.id)
         if (!user || !user.user_id) {
             res.status(404).json({message: "User not found"});
+            return;
+        }
+        if (user.user_login != params.login) {
+            res.redirect("/account/" + user.user_login);
             return;
         }
         return {
