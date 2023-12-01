@@ -61,3 +61,18 @@ async function saveInfo() {
         edit();
     }
 }
+
+function becomeEditor() {
+    fetch("/api/users/" + userId + "/becomeEditor", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).catch(err => {
+        console.error(err);
+    }).then(async res => {
+        if (res.status == 201) {
+            location.reload();
+        }
+    })
+}

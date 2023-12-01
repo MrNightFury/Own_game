@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '../config/ConfigService.js';
 import { ResultSetHeader } from "mysql2";
 import { DBService } from './DBService.js';
-import { User } from './model/User.js';
+import { Role, User } from './model/User.js';
 
 @Injectable()
 export class UsersRepository {
@@ -65,6 +65,16 @@ export class UsersRepository {
     public async deleteUser(id: number) {
         return this.dbService.getDb()?.query<ResultSetHeader>(
             "delete from users where user_id=?", [id]
+        ).catch(err => {
+            return {"message": err.message};
+        }).then(res => {
+            return res
+        });
+    }
+
+    public async setRole(id: number, role: Role) {
+        return this.dbService.getDb()?.query<ResultSetHeader>(
+            "update users set user_role=? where user_id=?", [role, id]
         ).catch(err => {
             return {"message": err.message};
         }).then(res => {

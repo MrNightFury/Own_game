@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DBService } from '../../db/DBService.js';
-import { User } from '../../db/model/User.js';
+import { Role, User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -106,5 +106,15 @@ export class UsersController {
         user.user_avatar_id = response.id;
         console.log(response.id)
         return this.repository.updateUserInfo(user);
+    }
+
+    @Post(":id/becomeEditor")
+    async becomeEditor(@Param("id") id: number, @Res({passthrough: true}) res: Response) {
+        let user = await this.repository.getUserById(id);
+        if (!user) {
+            res.status(HttpStatus.NOT_FOUND).send();
+            return;
+        }
+        return this.repository.setRole(id, Role.EDITOR);
     }
 }
