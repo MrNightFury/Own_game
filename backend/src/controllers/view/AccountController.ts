@@ -58,7 +58,7 @@ export class AccountControler {
         return {
             user: user,
             sets: await this.setsRepository.getSetsByAuthor(user.user_id),
-            categories: await this.categoriesRepository.getCategoriesByAuthor(user.user_id),
+            categories: await this.categoriesRepository.getCategoriesByAuthorWithData(user.user_id),
             edit: req.query.edit ? req.query.edit : false
         }
     }

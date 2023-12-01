@@ -100,6 +100,25 @@ function deleteQuestion (number){
     })
 }
 
+function swapQuestions (number) {
+    let body = {
+        number: number
+    }
+    fetch("/api/categories/" + category_id + "/questions", {
+        body: JSON.stringify(body),
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).catch(err => {
+        console.error(err);
+    }).then(async res => {
+        if (res.status == 200) {
+            location.reload();
+        }
+    })
+}
+
 // function saveRoundName(roundNumber) {
 //     console.log("roundName" + roundNumber)
 //     let newName = document.getElementById("roundName" + roundNumber).innerHTML;

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DBService } from './DBService.js';
 import { Round } from './model/Round.js';
-import { Category } from './model/Category.js';
+import { Category, CategoryWithData } from './model/Category.js';
+import { CategoryFilter } from './Filters.js';
 
 @Injectable()
 export class CategoriesRepository {
@@ -27,9 +28,23 @@ export class CategoriesRepository {
         }) ?? [];
     }
     
-    public async getCategoriesWithLogins() {
-        return await this.dbService.getDb()?.query<Category[]>(`select category_id, user_id, user_login, category_name
-        from categories inner join users on categories.category_author_id = users.user_id`).then(res => {
+    public async getCategoriesWithData(filter?: CategoryFilter) {
+        let query = `select
+        category_id, user_id, user_login, category_name, category_author_id, countQuestionsByCategory(category_id) as questions_count
+        from categories inner join users on categories.category_author_id = users.user_id`;
+        if (filter) {
+            let filters = [];
+            if (filter.author)
+                filters.push(`user_login='${filter.author}'`)
+            if (filter.filterUp)
+                filters.push(`countQuestionsByCategory(category_id)<=${filter.filterUp}`)
+            if (filter.filterDown)
+                filters.push(`countQuestionsByCategory(category_id)>=${filter.filterDown}`)
+            if (filters.length > 0) {
+                query += " where " + filters.join(" and ");
+            }
+        }
+        return await this.dbService.getDb()?.query<CategoryWithData[]>(query).then(res => {
             return res[0];
         }) ?? [];
     }

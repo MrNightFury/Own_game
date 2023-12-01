@@ -24,7 +24,7 @@ export class CategoriesEditorController {
     @Render("categoriesList")
     async getCategoriesList(@Body() body: any) {
         return {
-            categories: await this.categoriesRepository.getCategoriesWithLogins(),
+            categories: await this.categoriesRepository.getCategoriesWithData(),
             id: body.id
         }
     }

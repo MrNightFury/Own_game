@@ -69,13 +69,13 @@ export class SetsEditorController {
 
     @Get(":set_id/:round_number/add")
     @Render("addCategoryIntoSet")
-    async addCategoryPage(@Param("set_id") setId: number, @Param("round_number") roundNumber: number, @Body() body: any, @Res() res: Response) {
-        if (!await CanHelper.canEditSet(body.id, setId)) {
+    async addCategoryPage(@Param("set_id") setId: number, @Param("round_number") roundNumber: number, @Req() req: any, @Res() res: Response) {
+        if (!await CanHelper.canEditSet(req.body.id, setId)) {
             res.redirect("/sets/list")
         }
         return {
-            id: body.logged ? body.id : -1,
-            categories: await this.categoriesRepository.getCategoriesWithLogins(),
+            id: req.body.logged ? req.body.id : -1,
+            categories: await this.categoriesRepository.getCategoriesWithData(req.query),
             setId: setId,
             roundNumber: roundNumber,
             displayAuthor: true
