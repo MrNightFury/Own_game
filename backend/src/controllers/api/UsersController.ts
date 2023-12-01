@@ -1,13 +1,18 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DBService } from '../../db/DBService.js';
 import { User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
-import { Response } from 'express';
 import { Request, Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ConfigService } from '../../config/ConfigService.js';
+import axios from 'axios';
+import { JWTService } from '../../JWTService.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("api/users")
 export class UsersController {
-    constructor(private readonly repository: UsersRepository) {
+    constructor(private readonly repository: UsersRepository,
+                private readonly configService: ConfigService) {
         console.log("Users controller loaded");
     }
 
@@ -41,5 +46,65 @@ export class UsersController {
             return;
         }
         return this.repository.deleteUser(body.id);
+    }
+
+    // @Post(":id/icon")
+    // @UseInterceptors(FileInterceptor("file"))
+    // async uploadIcon(@Param("id") id: number, @UploadedFile() file: Express.Multer.File) {
+    //     console.log(file);
+    //     return {};
+    // }
+    @Post(":id/icon")
+    @UseInterceptors(FileInterceptor("file"))
+    async uploadIcon(@Param("id") id: number, @UploadedFile() file: Express.Multer.File, @Req() req: Request, @Res({passthrough: true}) res: Response) {
+        console.log("File got")
+        let token = req.cookies["jwt"];
+        if (!token) {
+            res.status(HttpStatus.UNAUTHORIZED).send();
+            return;
+        }
+        let result = JWTService.verify(token);
+        if (result == false) {
+            res.status(HttpStatus.UNAUTHORIZED).json({message: "Invalid token"});
+            return;
+        }
+        if (result != id) {
+            res.status(HttpStatus.FORBIDDEN).send();
+            return;
+        }
+        if (!CanHelper.isValidFile(file)) {
+            res.status(HttpStatus.BAD_REQUEST).send();
+            return;
+        }
+
+        let cfg = this.configService.getConfig().fileStorage;
+        let url = "http://" + cfg.host + ":" + cfg.port + "/files";
+        let data = new FormData();
+        let blob = new Blob([file.buffer], {type: file.mimetype});
+        data.append("file", blob, file.originalname);
+        let response = await axios.post(url, data, {
+            headers: {
+                ...req.headers
+            }
+        }).catch((err) => {
+            return;
+        }).then((response) => {
+            if (!response) {
+                return;
+            }
+            return response.data;
+        });
+        if (!response) {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+            return;
+        }
+        let user = await this.repository.getUserById(id);
+        if (!user) {
+            res.status(HttpStatus.NOT_FOUND).send();
+            return;
+        }
+        user.user_avatar_id = response.id;
+        console.log(response.id)
+        return this.repository.updateUserInfo(user);
     }
 }

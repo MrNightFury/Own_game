@@ -39,6 +39,24 @@ async function saveInfo() {
     }).then(async res => {
         return res.status == 200;
     })
+    if (!info) {
+        return;
+    }
+
+    if (avatarInput.files.length) {
+        console.log("Uploading")
+        let data = new FormData();
+        data.append("file", avatarInput.files[0]);
+        info = await fetch("/api/users/" + userId + "/icon", {
+            body: data,
+            method: "POST",
+            contentType: 'multipart/form-data',
+        }).catch(err => {
+            console.error(err);
+        }).then(async res => {
+            return res.status == 201
+        })
+    }
     if (info) {
         edit();
     }

@@ -103,4 +103,8 @@ export class CanHelper {
         }
         return true;
     }
+
+    public static isValidFile(file: Express.Multer.File) {
+        return (file && /^[a-zA-Z0-9_-]+\.(png|jpe?g)$/.test(file.originalname)) ?? false;
+    }
 }
