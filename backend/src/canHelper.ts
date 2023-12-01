@@ -44,6 +44,13 @@ export class CanHelper {
         let category = await this.catsRepo.getCategory(categoryId);
         return (user && (user.user_role == Role.ADMIN || user.user_id == category?.category_author_id)) ?? false;
     }
+    public static async canEditUser(userId: number, id: number) {
+        if (userId == undefined) {
+            return false;
+        }
+        let user = await this.usersRepo.getUserById(userId);
+        return (user && user.user_id == id) ?? false;
+    }
 
     public static async checkSetEdit(req: Request, res: Response, setId: number) {
         if (!req.body.logged) {
@@ -87,7 +94,7 @@ export class CanHelper {
             res.status(HttpStatus.UNAUTHORIZED).send();
             return;
         }
-        if (!await CanHelper.canEditCategory(req.body.id, +req.params.id)) {
+        if (!await CanHelper.canEditUser(req.body.id, +req.params.id)) {
             res.status(HttpStatus.FORBIDDEN).send();
             return;
         }

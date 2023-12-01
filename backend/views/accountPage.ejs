@@ -19,7 +19,7 @@
                 <div><span><%- user.user_id %></span><span id="userRole"><%- function(role) {
                     switch (role) {
                         case 'user':
-                            return `\<button onclick="becomeEditor()">Стать редактором\</button>`;
+                            return `\<button id="changeRoleButton" onclick="becomeEditor()">Стать редактором\</button>`;
                         case 'editor':
                             return "(Редактор)";
                         case 'admin':
