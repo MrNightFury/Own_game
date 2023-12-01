@@ -5,7 +5,7 @@
         <title>Своя игра – Наборы</title>
     </head>
     <body>
-        <%- include('parts/header', {subtitle: "Наборы"}) %>
+        <%- include('parts/header', {subtitle: "Наборы", userIcon: userIcon}) %>
         <main>
             <div>
                 <% let id = logged ? userId : -1 %>

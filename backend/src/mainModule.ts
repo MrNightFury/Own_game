@@ -16,6 +16,7 @@ import { CategoriesControler } from './controllers/api/CategoriesController.js';
 import { QuestionsRepository } from './db/QuestionsRepository.js';
 import { RedirectController } from './controllers/redirect.js';
 import { CanHelper } from './canHelper.js';
+import { UserIconPusher } from './userIconPusher.js';
 
 @Module({
     imports: [],
@@ -25,7 +26,8 @@ import { CanHelper } from './canHelper.js';
         RedirectController
     ],
     providers: [
-        DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository, CanHelper
+        DBService, ConfigService, CanHelper, UserIconPusher,
+        UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository
     ],
 })
 export class AppModule implements NestModule {
@@ -49,6 +51,12 @@ export class AppModule implements NestModule {
             .exclude({path: "*", method: RequestMethod.GET})
             .forRoutes(
                 { path: "api/users/:id", method: RequestMethod.ALL },
+            )
+        consumer.apply(UserIconPusher)
+            .exclude({path: "api/**", method: RequestMethod.GET},
+                     {path: "auth/**", method: RequestMethod.GET})
+            .forRoutes(
+                { path: "*", method: RequestMethod.GET },
             )
     }
 }

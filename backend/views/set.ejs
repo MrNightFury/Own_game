@@ -6,7 +6,7 @@
         <title>Своя игра – <%- set.set_name %></title>
     </head>
     <body>
-        <%- include('parts/header', {subtitle: "Набор"}) %>
+        <%- include('parts/header', {subtitle: "Набор", userIcon: userIcon}) %>
         <script>var set_id = +'<%- set.set_id %>'</script>
         
         <% if (canEdit) { %>
