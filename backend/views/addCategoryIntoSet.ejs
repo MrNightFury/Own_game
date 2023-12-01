@@ -9,6 +9,9 @@
         <%- include('parts/header', {subtitle: "Набор"}) %>
         <main>
             <div>
+                <%- include('parts/categoriesFilters') %>
+            </div>
+            <div>
                 <%- include('parts/categoriesList', {
                     user: {
                         id: id

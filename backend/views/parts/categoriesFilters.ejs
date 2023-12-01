@@ -1,0 +1,17 @@
+<script src="scripts/filters.js" type="text/javascript"></script>
+<form id="filterForm">
+    <span>
+        <span>От</span>
+        <input id="filterDown" type="number" min="0" oninput="checkFilterDown(event)" name="filterDown">
+        <span>До</span>
+        <input id="filterUp" type="number" min="0" oninput="checkFilterUp(event)" name="filterUp">
+        <span>вопросов</span>
+    </span>
+    <span>
+        <span>Автор</span>
+        <input id="filterAuthor" type="text" name="author">
+    </span>
+    <span>
+        <input type="submit" value="Поиск">
+    </span>
+</form>

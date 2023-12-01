@@ -120,12 +120,12 @@ body {
     }
 }
 
-tr > td:nth-child(1) {
-    text-align: center;
-}
-
-tr > td:nth-child(4) {
-    text-align: center;
+tr > td {
+    &:nth-child(1),
+    // &:nth-child(3),
+    &:nth-child(4) {
+        text-align: center;
+    }
 }
 
 tr > td {
@@ -144,6 +144,32 @@ tr + tr > td {
     color: gray;
 }
 
+input[type="number"] {
+    width: 3em;
+}
+
+#filterForm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    > span + span {
+        margin-left: 1em;
+    }
+    > * {
+        display: inline-block;
+    }
+    input[type="submit"] {
+        height: fit-content;
+        color: rgb(33, 112, 185);
+        // text-decoration: underline;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: .25em;
+        font-size: 100%;
+    }
+
+}
 // table {
 //     position: relative;
 //     width: 100%;
