@@ -8,9 +8,14 @@
     <body>
         <%- include('parts/header', {subtitle: "Аккаунт"}) %>
         <main>
+            <script>var userId = +'<%- user.user_id %>'; </script>
             <script src="scripts/account.js" type="text/javascript"></script>
             <div id="userInfo">
-                <div><%- user.user_login %></div>
+                <% if (edit == "info") { %>
+                    <div contenteditable id="userLoginInput"><%- user.user_login %></div>
+                <% } else { %>
+                    <div><%- user.user_login %></div>
+                <% } %>
                 <div><span><%- user.user_id %></span><span id="userRole"><%- function(role) {
                     switch (role) {
                         case 'user':

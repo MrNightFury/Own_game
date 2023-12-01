@@ -3,6 +3,7 @@ import { DBService } from '../../db/DBService.js';
 import { User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller("api/users")
 export class UsersController {
@@ -20,6 +21,17 @@ export class UsersController {
         return this.repository.addUser(user);
     }
 
+    @Put(":id")
+    async updateUser(@Param("id") id: number, @Body() user: any, @Res({passthrough: true}) res: Response) {
+        let oldUser = await this.repository.getUserById(id);
+        if (!oldUser) {
+            res.status(HttpStatus.NOT_FOUND).send();
+            return;
+        }
+        for (let k in user) {
+            oldUser[k] = user[k];
+        }
+        console.log(oldUser);
     }
 
     @Delete(":id")

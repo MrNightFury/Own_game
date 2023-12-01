@@ -1,3 +1,7 @@
+function edit(name) {
+    location.href = location.href.split('?')[0] + (name ? '?edit=' + name : "");
+}
+
 function createCategory() {
     let body = {
         category_name: "Default name"
@@ -17,4 +21,25 @@ function createCategory() {
             location.href = "categories/" + id;
         }
     })
+}
+
+async function saveInfo() {
+    let body = {
+        user_login: userLoginInput.innerHTML
+    }
+
+    let info = await fetch("/api/users/" + userId, {
+        body: JSON.stringify(body),
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).catch(err => {
+        console.error(err);
+    }).then(async res => {
+        return res.status == 200;
+    })
+    if (info) {
+        edit();
+    }
 }

@@ -51,6 +51,10 @@ export class UsersRepository {
         });
     }
 
+    public async updateUserInfo(user: User) {
+        return await this.dbService.getDb()?.query<ResultSetHeader>(
+            "update users set user_login=?, user_avatar_id=? where user_id=?",
+            [user.user_login, user.user_avatar_id, user.user_id]
         ).catch(err => {
             return {"message": err.message};
         }).then(res => {

@@ -34,14 +34,21 @@ export class AppModule implements NestModule {
             .exclude("auth/(.*)")
             .forRoutes("/");
         consumer.apply(CanHelper.setEditMiddleware)
+            .exclude({path: "*", method: RequestMethod.GET})
             .forRoutes(
                 { path: "api/sets/:id", method: RequestMethod.ALL },
                 { path: "api/sets/:id/rounds", method: RequestMethod.ALL },
             )
         consumer.apply(CanHelper.categoryEditMiddleware)
+            .exclude({path: "*", method: RequestMethod.GET})
             .forRoutes(
                 { path: "api/categories/:id", method: RequestMethod.ALL },
                 { path: "api/categories/:id/questions", method: RequestMethod.ALL },
+            )
+        consumer.apply(CanHelper.userIdCheck)
+            .exclude({path: "*", method: RequestMethod.GET})
+            .forRoutes(
+                { path: "api/users/:id", method: RequestMethod.ALL },
             )
     }
 }

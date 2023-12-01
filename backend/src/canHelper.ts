@@ -81,6 +81,18 @@ export class CanHelper {
         }
         next();
     }
+    public static async userIdCheck(req: Request, res: Response, next: NextFunction) {
+        console.log("User Edit Middleware");
+        if (!req.body.logged) {
+            res.status(HttpStatus.UNAUTHORIZED).send();
+            return;
+        }
+        if (!await CanHelper.canEditCategory(req.body.id, +req.params.id)) {
+            res.status(HttpStatus.FORBIDDEN).send();
+            return;
+        }
+        next();
+    }
 
     private static restrictedLogins = ["login", "register"];
     public static validLogin(login: string) {
