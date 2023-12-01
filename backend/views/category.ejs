@@ -34,11 +34,12 @@
             </div>
 
             <div id="questionsList">
-                <% for (let question of questions) { %>
+                <% for (let i in questions) { %>
                     <%- include('parts/question', {
-                        question: question,
+                        question: questions[i],
                         canEdit: canEdit,
-                        edit: edit
+                        edit: edit,
+                        isLast: i == questions.length - 1
                     }) %>
                 <% }; %> 
                 <% if (canEdit) { %>

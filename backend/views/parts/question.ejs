@@ -9,6 +9,9 @@
         <% } else { %>
             <span class="questionTitle"><%- question.question_title || "Unnamed question" %></span>
             <% if (canEdit) { %>
+                <% if (!isLast) { %>
+                    <button class="swapButton" onclick="swapQuestions(+'<%- question.question_number %>')">Swap</button>
+                <% } %>
                 <button class="editQuestionButton" onclick="edit(+'<%- question.question_number %>')">Изменить</button>
             <% } %>
         <% } %>

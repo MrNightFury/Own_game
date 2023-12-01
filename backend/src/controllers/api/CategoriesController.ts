@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Patch, Post, Put, Req, Res } from '@nestjs/common';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
 import { CategoriesRepository } from '../../db/CategoriesRepository.js';
@@ -60,6 +60,11 @@ export class CategoriesControler {
     @Delete(":id/questions")
     async deleteQuestion(@Param("id") id: number, @Body() body: any) {
         return await this.questionsRepository.deleteQuestion(id, body.question_number);
+    }
+
+    @Patch(":id/questions")
+    async swapQuestions(@Param("id") id: number, @Body() body: any) {
+        return await this.questionsRepository.swapQuestions(id, body.number);
     }
 
     // @Put(":id/categories")

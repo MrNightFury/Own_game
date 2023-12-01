@@ -22,16 +22,20 @@
             align-self: center;
         }
 
-        .deleteQuestionButton, .editQuestionButton, .saveQuestionButton {
+        .deleteQuestionButton, .editQuestionButton, .saveQuestionButton, .swapButton {
             font-size: 75%;
         }
 
-        .deleteQuestionButton, .editQuestionButton {
+        .deleteQuestionButton, .editQuestionButton, .swapButton {
             margin-left: auto;
         }
 
         .deleteQuestionButton {
             color: red;
+        }
+
+        .swapButton + .editQuestionButton {
+            margin-left: .5em;
         }
     }
 
