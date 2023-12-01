@@ -11,6 +11,7 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Кол-во вопросов</th>
         <% if (displayAuthor) { %>
             <th>Set author</th>
         <% } %>
@@ -19,12 +20,15 @@
         <tr>
             <td><%= categories[i].category_id %></td>
             <td><a href="categories/<%- categories[i].category_id %>"><%- categories[i].category_name %></a></td>
-            <td>
-                <%= categories[i].user_login %>
-                <% if (user.id == categories[i].user_id) { %>
-                    <span class="you">(you)</span>
-                <% } %>
-            </td>
+            <td><%- categories[i].questions_count %></td>
+            <% if (displayAuthor) { %>
+                <td>
+                    <%= categories[i].user_login %>
+                    <% if (user.id == categories[i].user_id) { %>
+                        <span class="you">(you)</span>
+                    <% } %>
+                </td>
+            <% } %>
             <% if (addTo) { %>
                 <td>
                     <button onclick="addCategory(+'<%- categories[i].category_id %>', +'<%- addTo.setId %>', +'<%- addTo.roundNumber %>')">Add</button>
