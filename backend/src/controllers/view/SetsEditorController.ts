@@ -6,6 +6,7 @@ import { RoundsRepository } from '../../db/RoundsRepository.js';
 import { CategoriesRepository } from '../../db/CategoriesRepository.js';
 import { Category } from '../../db/model/Category.js';
 import { Round } from '../../db/model/Round.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("sets")
 export class SetsEditorController {
@@ -27,9 +28,15 @@ export class SetsEditorController {
 
     @Get("new")
     @Render("setEdit")
-    async createSetPage() {
-        return {
-            id: -1
+    async createSetPage(@Req() req: Request, @Res() res: Response) {
+        if (!req.body.logged) {
+            res.status(401).redirect("/account");
+        } else if (!await CanHelper.canCreate(req.body.id)) {
+            res.status(403).redirect("/account");
+        } else {
+            return {
+                id: -1
+            }
         }
     }
 
@@ -41,7 +48,7 @@ export class SetsEditorController {
             res.status(404).json({Message: "Set not found"});
             return;
         }
-        let isAuthor = req.body.logged && req.body.id == set.set_author_id;
+        let isAuthor = await CanHelper.canEditSet(req.body.id, set.set_id);
         console.log(isAuthor)
 
         let rounds = await this.roundsRepository.getRoundsList(set.set_id);
@@ -62,7 +69,10 @@ export class SetsEditorController {
 
     @Get(":set_id/:round_number/add")
     @Render("addCategoryIntoSet")
-    async addCategoryPage(@Param("set_id") setId: number, @Param("round_number") roundNumber: number, @Body() body: any) {
+    async addCategoryPage(@Param("set_id") setId: number, @Param("round_number") roundNumber: number, @Body() body: any, @Res() res: Response) {
+        if (!await CanHelper.canEditSet(body.id, setId)) {
+            res.redirect("/sets/list")
+        }
         return {
             id: body.logged ? body.id : -1,
             categories: await this.categoriesRepository.getCategoriesWithLogins(),

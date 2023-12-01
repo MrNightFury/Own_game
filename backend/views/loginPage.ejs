@@ -6,20 +6,21 @@
         <title>Своя игра – Вход</title>
     </head>
     <body>
-        <%- include('parts/header', {subtitle: "Text"}) %>
+        <%- include('parts/header', {subtitle: "Вход"}) %>
         <main>
             <div>
-                <form id="loginForm">
+                <form id="loginForm" class="form">
                     <div id="loginInput">
                         <input name="login" type="text" placeholder="Login" required>
-                        <label for="login">User not found</label>
+                        <label for="login">Пользователя не существует</label>
                     </div>
                     <div id="passwordInput">
                         <input name="password" type="password" placeholder="Password" required>
-                        <label for="password">Incorrect password</label>
+                        <label for="password">Неверный пароль</label>
                     </div>
-                    <input type="submit">
+                    <input type="submit" value="Вход">
                 </form>
+                <div id="registerPrompt">Ещё нет аккаунта?<a href="account/register">Зарегистрироваться</a></div>
             </div>
         </main>
         <script src="scripts/netFunctions.js" type="text/javascript"></script>

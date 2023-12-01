@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
 import { CategoriesRepository } from '../../db/CategoriesRepository.js';
 import { QuestionsRepository } from '../../db/QuestionsRepository.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("api/categories")
 export class CategoriesControler {
@@ -22,6 +23,10 @@ export class CategoriesControler {
             res.status(401).send();
             return;
         }
+        if (!await CanHelper.canCreate(req.body.id)) {
+            res.status(403).send();
+            return;
+        }
         req.body.category_author_id = req.body.id;
         let result = (await this.categoriesepository.createCategory(req.body)) as {insertId: number};
         return {
@@ -30,21 +35,13 @@ export class CategoriesControler {
     }
 
     @Put(":id")
-    async update (@Param("id") id: number, @Req() req: Request, @Res({passthrough: true}) res: Response) {
-        if (!req.body.logged || req.body.id != (await this.categoriesepository.getCategory(id))?.category_author_id) {
-            res.status(401).send();
-            return;
-        }
+    async update (@Param("id") id: number, @Req() req: Request) {
         req.body.category_id = id;
         return await this.categoriesepository.updateCategory(req.body);
     }
 
     @Delete(":id")
-    async delete (@Param("id") id: number, @Req() req: Request, @Res({passthrough: true}) res: Response) {
-        if (!req.body.logged || req.body.id != (await this.categoriesepository.getCategory(id))?.category_author_id) {
-            res.status(401).send();
-            return;
-        }
+    async delete (@Param("id") id: number, @Req() req: Request) {
         return await this.categoriesepository.deleteCategory(id);
     }
 

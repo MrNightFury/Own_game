@@ -41,14 +41,16 @@
                         edit: edit
                     }) %>
                 <% }; %> 
-                <button id="addQuestionButton" onclick="addDefaultQuestion(+'<%- questions.length %>' + 1)">Создать вопрос</button>
-            </div>
-
-            <div>
                 <% if (canEdit) { %>
-                    <button id="deleteButton" onclick="deleteCategory('<%- category.category_id %>')">Удалить категорию</button>
+                    <button id="addQuestionButton" onclick="addDefaultQuestion(+'<%- questions.length %>' + 1)">Создать вопрос</button>
                 <% } %>
             </div>
+
+            <% if (canEdit) { %>
+                <div>
+                    <button id="deleteButton" onclick="deleteCategory('<%- category.category_id %>')">Удалить категорию</button>
+                </div>
+            <% } %>
         </main>
     </body>
 </html>

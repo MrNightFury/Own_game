@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
 import { Set } from '../../db/model/Set.js';
 import { SetsRepository } from '../../db/SetsRepository.js';
 import { AddCategoryRequest } from '../dto/setDTO.js';
 import { Round } from '../../db/model/Round.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("api/sets")
 export class SetsControler {
-    constructor(private readonly repository: SetsRepository) {
+    constructor(private readonly repository: SetsRepository,
+                private readonly usersRepository: UsersRepository) {
         console.debug("Auth controller loaded")
     }
 
@@ -23,6 +25,12 @@ export class SetsControler {
             res.status(401).send();
             return;
         }
+        if (req.body.set_id == undefined && !await CanHelper.canCreate(req.body.id)
+            || req.body.set_id != undefined && !await CanHelper.canEditSet(req.body.id, req.body.set_id)
+        ){
+            res.status(HttpStatus.FORBIDDEN).send();
+            return;
+        }
         req.body.set_author_id = req.body.id;
         let result = (await this.repository.saveSet(req.body))?.[0] as {insertId: number};
         return {
@@ -32,10 +40,6 @@ export class SetsControler {
 
     @Delete(":id")
     async delete(@Param("id") id: number, @Req() req: Request, @Res({passthrough: true}) res: Response) {
-        if (!req.body.logged || req.body.id != (await this.repository.getSet(id))?.set_author_id) {
-            res.status(401).send();
-            return;
-        }
         if (await this.repository.deleteSet(id)) {
             res.status(200).send();
         } else {

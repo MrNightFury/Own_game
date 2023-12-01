@@ -3,7 +3,6 @@ import { ConfigService } from '../config/ConfigService.js';
 import { ResultSetHeader } from "mysql2";
 import { DBService } from './DBService.js';
 import { User } from './model/User.js';
-import { UserDeleteRequest } from '../controllers/dto/UserDTOs.js';
 
 @Injectable()
 export class UsersRepository {
@@ -18,6 +17,9 @@ export class UsersRepository {
     }
 
     public async getUserById(id: number) {
+        if (!id) {
+            return undefined;
+        }
         return await this.dbService.getDb()?.query<User[]>("select * from users where user_id=?", [id]).then(res => {
             return res[0][0];
         })

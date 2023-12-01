@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { UsersController } from './controllers/api/UsersController.js';
 import { DBService } from './db/DBService.js';
 import { ConfigService } from './config/ConfigService.js';
@@ -14,15 +14,18 @@ import { SetsControler } from './controllers/api/SetsController.js';
 import { CategoriesEditorController } from './controllers/view/CategoriesEditorController.js';
 import { CategoriesControler } from './controllers/api/CategoriesController.js';
 import { QuestionsRepository } from './db/QuestionsRepository.js';
+import { RedirectController } from './controllers/redirect.js';
+import { CanHelper } from './canHelper.js';
 
 @Module({
     imports: [],
     controllers: [
         UsersController, AuthControler, SetsControler, CategoriesControler,
-        AccountControler, SetsEditorController, CategoriesEditorController
+        AccountControler, SetsEditorController, CategoriesEditorController,
+        RedirectController
     ],
     providers: [
-        DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository
+        DBService, ConfigService, UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository, CanHelper
     ],
 })
 export class AppModule implements NestModule {
@@ -30,5 +33,15 @@ export class AppModule implements NestModule {
         consumer.apply(JWTService.middleware)
             .exclude("auth/(.*)")
             .forRoutes("/");
+        consumer.apply(CanHelper.setEditMiddleware)
+            .forRoutes(
+                { path: "api/sets/:id", method: RequestMethod.ALL },
+                { path: "api/sets/:id/rounds", method: RequestMethod.ALL },
+            )
+        consumer.apply(CanHelper.categoryEditMiddleware)
+            .forRoutes(
+                { path: "api/categories/:id", method: RequestMethod.ALL },
+                { path: "api/categories/:id/questions", method: RequestMethod.ALL },
+            )
     }
 }

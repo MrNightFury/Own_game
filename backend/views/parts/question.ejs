@@ -8,7 +8,9 @@
             <button class="saveQuestionButton" onclick="saveQuestion(+'<%- question.question_number %>')">Сохранить</button>
         <% } else { %>
             <span class="questionTitle"><%- question.question_title || "Unnamed question" %></span>
-            <button class="editQuestionButton" onclick="edit(+'<%- question.question_number %>')">Изменить</button>
+            <% if (canEdit) { %>
+                <button class="editQuestionButton" onclick="edit(+'<%- question.question_number %>')">Изменить</button>
+            <% } %>
         <% } %>
     </div>
     

@@ -48,7 +48,7 @@ export class CategoriesEditorController {
         // let author = await this.usersRepository.getUserById(set.set_author_id);
 
         let user = await this.usersRepository.getUserById(req.body.id);
-        let canEdit = CanHelper.can(user, category.category_author_id);
+        let canEdit = CanHelper.canEdit(user, category.category_author_id);
         // let isAuthor = req.body.logged && req.body.login == author?.user_login;
 
         // let rounds = await this.roundsRepository.getRoundsList(category.category_author_id);

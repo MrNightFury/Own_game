@@ -1,14 +1,13 @@
 import { Body, Controller, Delete, Get, Logger, Post, Res } from '@nestjs/common';
 import { User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
-import { AuthRequest, UserDeleteRequest } from '../dto/UserDTOs.js';
+import { AuthRequest } from '../dto/UserDTOs.js';
 import { Response } from 'express';
 import { JWTService } from '../../JWTService.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("auth")
 export class AuthControler {
-    private readonly logger = new Logger(AuthControler.name);
-    
     constructor(private readonly repository: UsersRepository) {
         console.debug("Auth controller loaded")
     }

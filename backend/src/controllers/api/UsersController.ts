@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { DBService } from '../../db/DBService.js';
 import { User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
-import { UserDeleteRequest } from '../dto/UserDTOs.js';
+import { Response } from 'express';
 
 @Controller("api/users")
 export class UsersController {
@@ -11,7 +11,7 @@ export class UsersController {
     }
 
     @Get()
-    getUsersList() {
+    async getUsersList() {
         return this.repository.getUsersList();
     }
 
@@ -20,8 +20,12 @@ export class UsersController {
         return this.repository.createUser(user);
     }
 
-    @Delete()
-    async deleteUser(@Body() req: UserDeleteRequest) {
-        return this.repository.deleteUser(req.id);
+    @Delete(":id")
+    async deleteUser(@Param("id") id: number, @Body() body: any, @Res({passthrough: true}) res: Response) {
+        if (!body.logged || body.id != id) {
+            res.status(HttpStatus.FORBIDDEN).send();
+            return;
+        }
+        return this.repository.deleteUser(body.id);
     }
 }
