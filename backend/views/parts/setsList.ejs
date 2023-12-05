@@ -5,14 +5,18 @@
         <col>
         <col>
     </colgroup>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <% if (displayAuthor) { %>
-            <th>Set author</th>
-        <% } %>
-    </tr>
+    <% if (sets.length != 0) { %>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <% if (displayAuthor) { %>
+                <th>Автор</th>
+            <% } %>
+        </tr>
+    <% } else { %>
+        <div>Здесь будут ваши наборы</div>
+    <% } %>
     <% for( let i = 0; i < sets.length; i++ ) { %>
         <tr>
             <td><%= sets[i].set_id %></td>
@@ -20,9 +24,9 @@
             <td><%= sets[i].set_description %></td>
             <td>
                 <% if (displayAuthor) { %>
-                    <%= sets[i].user_login %>
+                    <a href="account/<%- sets[i].user_login %>"><%- sets[i].user_login %></a>
                     <% if (userId == sets[i].set_author_id) { %>
-                        <span class="you">(you)</span>
+                        <span class="you">(вы)</span>
                     <% } %>
                 <% } %>
             </td>

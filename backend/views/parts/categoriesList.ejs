@@ -8,14 +8,19 @@
         <col>
         <col>
     </colgroup>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Кол-во вопросов</th>
-        <% if (displayAuthor) { %>
-            <th>Set author</th>
-        <% } %>
-    </tr>
+    <% if (categories.length != 0) { %>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Кол-во вопросов</th>
+            <% if (displayAuthor) { %>
+                <th>Автор</th>
+            <% } %>
+        </tr>
+    <% } else { %>
+        <div>Здесь будут ваши категории</div>
+    <% } %>
+    
     <% for( let i = 0; i < categories.length; i++ ) { %>
         <tr>
             <td><%= categories[i].category_id %></td>
@@ -25,7 +30,7 @@
                 <td>
                     <%= categories[i].user_login %>
                     <% if (user.id == categories[i].user_id) { %>
-                        <span class="you">(you)</span>
+                        <span class="you">(вы)</span>
                     <% } %>
                 </td>
             <% } %>

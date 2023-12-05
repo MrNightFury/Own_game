@@ -68,12 +68,12 @@
                                 <li>
                                     <a href="categories/<%= category.category_id %>"><%= category.category_name %></a>
                                     <% if (canEdit) { %>
-                                        <button onclick="removeCategory('<%- set.set_id %>', '<%- round.round_number %>', '<%- category.category_id %>')">Remove</button>
+                                        <button onclick="removeCategory('<%- set.set_id %>', '<%- round.round_number %>', '<%- category.category_id %>')">Удалить</button>
                                     <% } %>
                                 </li>
                             <% } %>
                             <% if (canEdit) { %>
-                                <a href="sets/<%= set.set_id %>/<%= rounds[i].round.round_number %>/add">Add a category</a>
+                                <a href="sets/<%= set.set_id %>/<%= rounds[i].round.round_number %>/add">Добавить категорию</a>
                             <% } %>
                         </ul>
                     </div>
