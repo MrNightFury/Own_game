@@ -81,4 +81,8 @@ export class UsersRepository {
             return res
         });
     }
+
+    public async banUser(userId: number, state: boolean) {
+        return await this.dbService.getDb()?.query("update users set isBanned = ? where user_id=?", [state, userId]);
+    }
 }

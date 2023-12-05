@@ -42,23 +42,27 @@ export class AccountControler {
     @Render("accountPage")
     @Get(":login")
     async getUserPage(@Param() params: any, @Req() req: Request, @Res() res: Response) {
-        if (!req.body.logged) {
-            res.redirect("/account/login");
-            return;
+        // if (!req.body.logged) {
+        //     res.redirect("/account/login");
+        //     return;
+        // }
+        let viewer
+        if (req.body.id) {
+            viewer = await this.userRepository.getUserById(req.body.id);
         }
-        let user = await this.userRepository.getUserById(req.body.id)
+        
+        let user = await this.userRepository.getUser(params.login);
         if (!user || !user.user_id) {
             res.status(404).json({message: "User not found"});
-            return;
-        }
-        if (user.user_login != params.login) {
-            res.redirect("/account/" + user.user_login);
             return;
         }
         return {
             user: user,
             sets: await this.setsRepository.getSetsByAuthor(user.user_id),
             categories: await this.categoriesRepository.getCategoriesByAuthorWithData(user.user_id),
+            canEdit: user.user_id == req.body.id,
+            canBan: viewer?.user_role == 'moderator' || viewer?.user_role == 'admin',
+            viewer: viewer ?? -1,
             edit: req.query.edit ? req.query.edit : false
         }
     }

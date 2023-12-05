@@ -17,6 +17,9 @@
                     <div><%- user.user_login %></div>
                 <% } %>
                 <div><span><%- user.user_id %></span><span id="userRole"><%- function(role) {
+                    if (user.isBanned) {
+                        return '(Забанен)'
+                    }
                     switch (role) {
                         case 'user':
                             return `\<button id="changeRoleButton" onclick="becomeEditor()">Стать редактором\</button>`;
@@ -24,6 +27,8 @@
                             return "(Редактор)";
                         case 'admin':
                             return "(Админ)";
+                        case 'moderator':
+                            return "(Модератор)";
                     }
                 }(user.user_role); %></span></div>
 
@@ -34,20 +39,26 @@
                 <% } %>
 
                 <div id="menu">
-                    <% if (edit == "info") { %>
-                        <button id="saveButton" onclick="saveInfo()">Сохранить</button>
-                    <% } else { %>
-                        <button id="editButton" onclick="edit('info')">Изменить</button>
+                    <% if (canEdit) { %>
+                        <% if (edit == "info") { %>
+                            <button id="saveButton" onclick="saveInfo()">Сохранить</button>
+                        <% } else { %>
+                            <button id="editButton" onclick="edit('info')">Изменить</button>
+                        <% } %>
+                        
+                        <button id="exitButton" onclick="
+                            document.cookie = 'jwt=;max-age=-1;path=/'
+                            location.href = 'account/login'
+                        ">Выйти</button>
+                    <% } else if (canBan && !user.isBanned) { %>
+                        <button id="banButton" onclick="banUser(true)">Забанить</button>
+                    <% } else if (canBan && user.isBanned) { %>
+                        <button id="unbanButton" onclick="banUser(false)">Разбанить</button>
                     <% } %>
-                    
-                    <button id="exitButton" onclick="
-                        document.cookie = 'jwt=;max-age=-1;path=/'
-                        location.href = 'account/login'
-                    ">Exit</button>
                 </div>
             </div>
 
-            <% if (edit == "info") { %>
+            <% if (edit == "info" && canEdit) { %>
                 <div id="editMenu" method="post" >
                     <label for="avatarInput">Изменить аватар</label>
                     <input id="avatarInput" type="file" accept=".png,.jpg,.jpeg" title="asd"/>
@@ -56,9 +67,9 @@
 
             <div id="content">
                 <input id="setsSelector" name="page" type="radio" checked/>
-                <label for="setsSelector">Sets</label>
+                <label for="setsSelector">Наборы</label>
                 <input id="categoriesSelector" name="page" type="radio"/>
-                <label for="categoriesSelector">Categories</label>
+                <label for="categoriesSelector">Категории</label>
                 <div class="divider"></div>
                 <div id="sets">
                     <%- include('parts/setsList', {
@@ -66,8 +77,10 @@
                         sets: sets,
                         userId: user.user_id
                     }) %>
-                    <div class="divider"></div>
-                    <button id="createSetButton" class="createButton" onclick="location.href='sets/new'">Create new set</button>
+                    <% if (canEdit) { %>
+                        <div class="divider"></div>
+                        <button id="createSetButton" class="createButton" onclick="location.href='sets/new'">Создать набор</button>
+                    <% } %>
                 </div>
                 <div id="categories">
                     <%- include('parts/categoriesList', {
@@ -79,10 +92,11 @@
 
                         displayAuthor: false
                     }) %>
-                    <div class="divider"></div>
-                    <button id="createCategoryButton" class="createButton" onclick="createCategory()">Create new category</button>
+                    <% if (canEdit) { %>
+                        <div class="divider"></div>
+                        <button id="createCategoryButton" class="createButton" onclick="createCategory()">Создать категорию</button>
+                    <% } %>
                 </div>
-                
             </div>
         </main>
     </body>

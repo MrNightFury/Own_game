@@ -117,4 +117,14 @@ export class UsersController {
         }
         return this.repository.setRole(id, Role.EDITOR);
     }
+
+    @Post(":id/ban")
+    async banUser(@Param("id") id: number, @Req() req: Request, @Res({passthrough: true}) res: Response) {
+        let user = await this.repository.getUserById(req.body.id);
+        if (user?.user_role != Role.MODERATOR && user?.user_role != Role.ADMIN) {
+            res.status(HttpStatus.FORBIDDEN).send();
+            return;
+        }
+        return this.repository.banUser(id, req.body.state);
+    }
 }

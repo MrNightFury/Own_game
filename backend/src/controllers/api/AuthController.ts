@@ -23,6 +23,8 @@ export class AuthControler {
             res.status(404).json({message: "User not found"});
         } else if (user.user_password != req.password) {
             res.status(401).json({message: "Incorrect password"});
+        } else if (user.isBanned) {
+            res.status(403).send();
         } else {
             res.status(200).cookie("jwt", JWTService.generateToken(user.user_id));
         }

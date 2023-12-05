@@ -76,3 +76,23 @@ function becomeEditor() {
         }
     })
 }
+
+function banUser(state) {
+    // :id/ban
+    fetch("/api/users/" + userId + "/ban", {
+        method: "POST",
+        body: JSON.stringify({
+            state: state
+        }),
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).catch(err => {
+        console.error(err);
+    }).then(async res => {
+        console.log(res)
+        if (res.status == 201) {
+            location.reload();
+        }
+    })
+}

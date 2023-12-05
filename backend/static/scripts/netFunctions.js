@@ -12,6 +12,8 @@ document.getElementById("loginForm").addEventListener("submit", event => {
             document.querySelector("#loginInput label").style.display = "inline";
         } else if (result.status == 401) {
             document.querySelector("#passwordInput label").style.display = "inline";
+        } else if (result.status == 403) {
+            document.querySelector("#bannedLabel").style.display = "inline";
         } else {
             location.href = "/account/" + data.login;
         }

@@ -120,12 +120,19 @@ body {
     }
 }
 
+table {
+    width: calc(75vw);
+    position: relative;
+}
 tr > td {
-    &:nth-child(1),
-    // &:nth-child(3),
-    &:nth-child(4) {
-        text-align: center;
+    // &:nth-child(1),
+    // // &:nth-child(3),
+    &:nth-child(3) {
+        max-width: 10em;
+        overflow-wrap: break-word;
+
     }
+    text-align: center;
 }
 
 tr > td {
@@ -138,6 +145,15 @@ tr > td {
 
 tr + tr > td {
     padding-top: .5em;
+}
+
+th + th {
+    margin-left: 10em;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 4px;
 }
 
 .you {

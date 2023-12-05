@@ -11,16 +11,17 @@
             <div>
                 <form id="loginForm" class="form">
                     <div id="loginInput">
-                        <input name="login" type="text" placeholder="Login" required>
+                        <input name="login" type="text" placeholder="Логин" required>
                         <label for="login">Пользователя не существует</label>
                     </div>
                     <div id="passwordInput">
-                        <input name="password" type="password" placeholder="Password" required>
+                        <input name="password" type="password" placeholder="Пароль" required>
                         <label for="password">Неверный пароль</label>
                     </div>
                     <input type="submit" value="Вход">
+                    <span id="bannedLabel">Вы забанены</span>
                 </form>
-                <div id="registerPrompt">Ещё нет аккаунта?<a href="account/register">Зарегистрироваться</a></div>
+                <div id="registerPrompt">Ещё нет аккаунта? <a href="account/register">Зарегистрироваться</a></div>
             </div>
         </main>
         <script src="scripts/netFunctions.js" type="text/javascript"></script>
