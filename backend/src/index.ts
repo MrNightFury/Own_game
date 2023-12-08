@@ -3,6 +3,7 @@ import { AppModule } from "./mainModule.js";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
 import * as cookieParser from 'cookie-parser';
+import { IoAdapter } from '@nestjs/platform-socket.io'
 // import * as WebSocket from "ws";
 
 // const app = Express();
@@ -41,6 +42,7 @@ async function bootstrap() {
     app.useStaticAssets('./static');
     app.setBaseViewsDir('./views');
     app.setViewEngine('ejs');
+    app.useWebSocketAdapter(new IoAdapter(app))
     console.log("Starting app...");
     await app.listen(80).catch(err => {
         console.log(err);

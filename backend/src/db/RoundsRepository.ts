@@ -14,6 +14,6 @@ export class RoundsRepository {
     public async getRoundsList(setId: number) {
         return await this.dbService.getDb()?.query<Round[]>("select * from rounds where set_id=?", [setId]).then(res => {
             return res[0];
-        }) ?? [];
+        });
     }
 }
