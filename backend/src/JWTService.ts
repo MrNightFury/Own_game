@@ -16,7 +16,15 @@ export class JWTService {
         if (token) {
             let result = JWTService.verify(token);
             if (result == false) {
-                res.status(401).json({message: "Invalid token"});
+                console.log(req.url)
+                if (req.url.indexOf("api") == 1) {
+                    res.status(401).json({message: "Invalid token"});
+                } else if (req.url != "/account/login"){
+                    res.redirect("/account/login");
+                    req.body.logged = false;
+                } else {
+                    next();
+                }
                 return;
             } else {
                 req.body.logged = true;
