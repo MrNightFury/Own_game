@@ -2,6 +2,7 @@ import { All, Body, Controller, Delete, Get, Param, Post, Render, Req, Res } fro
 import { Request, Response } from 'express';
 import { ConfigService } from '../config/ConfigService.js';
 import { FileStorageConfig } from '../config/Configs.js';
+import path from 'path';
 
 @Controller()
 export class RedirectController {
@@ -16,5 +17,12 @@ export class RedirectController {
         let url = "http://" + this.cfg.host + ":" + this.cfg.port + req.url;
         console.log("Redirecting to " + url);
         res.redirect(url);
+    }
+
+    @Get("src/*")
+    async getSrc(@Res() res: Response, @Req() req: Request) {
+        let filename = req.url.split("/").slice(2).join("/");
+        filename = path.join(process.cwd(), "dist", filename);
+        res.sendFile(filename);
     }
 }
