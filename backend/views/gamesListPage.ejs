@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <link rel="stylesheet/less" type="text/css" href="css/login.less"> -->
+        <%- include('parts/head'); %>
+        <title>Своя игра – Вход</title>
+    </head>
+    <body>
+        <%- include('parts/header', {subtitle: "Игры", userIcon: userIcon}) %>
+        <main>
+            <div>
+                <% for( let i = 0; i < games.length; i++ ) { %>
+                    <%- include("parts/game", { game: games[i] }) %>
+                <% } %>
+            </div>
+        </main>
+    </body>
+</html>

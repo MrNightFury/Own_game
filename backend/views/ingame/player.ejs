@@ -1,0 +1,8 @@
+<div>
+    <% if (user.user_avatar_id) { %>
+        <img src="../files/<%- user.user_avatar_id %>">
+    <% } else { %>
+        <img src="images/default_avatar.jpg">
+    <% } %>
+    <span><%- user.user_login %></span>
+</div>

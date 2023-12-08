@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet/less" type="text/css" href="css/editor.less">
-        <%- include('parts/head'); %>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+
+
+        <link rel="icon" type="images/png" href="images/icon.png">
+        <link rel="stylesheet/less" type="text/css" href="../css/game.less">
+
+        <script src="/scripts/dev/less.js" data-env="development" type="text/javascript"></script>
+        <script>less.watch()</script>
         <title>Своя игра</title>
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
+        <script src="/scripts/dev/transpiler.js" type="module"></script>
+        <script> var gameId = +'<%-  %>'</script>
+        <script src="/scripts/game.ts" type="text/typescript" data-type="module" defer></script>
+
+        <script>
+            var user = JSON.parse('<%- JSON.stringify(user) %>');
+        </script>
+        
         <main>
-            <div id="admin">
-                <img class="avatar" src="../images/profile_picture.jpg">
-                <p>Admin</p>
+            <div id="title">
+                <div>Own game</div>
+                <div><%- game.title %></div>
+            </div>
+            <div id="hostContainer">
+                <img class="avatar" id="hostAvatar" src="../images/default_avatar.jpg">
+                <p id="hostLogin">Admin</p>
+                <span id="becomeHost" onclick="becomeHost()">
+                    <p>Become Host</p>
+                </span>
             </div>
             <div id="game">
                 <div id="screen">
@@ -18,11 +42,17 @@
                     <% }; %>
                 </div>
             </div>
-            <div id="panel">
-                <p>panel</p>
+            <div id="chat">
+                <div id="chatbox">
+                    <span class="systemMessage">Welcome!</span>
+                    <span class="playerMessage"><span class="sender">MrNightFury</span>Hi there</span>
+                </div>
+                <form onsubmit="event.preventDefault(); sendMessage()">
+                    <input id="messageInput" type="text">
+                </form>
             </div>
-            <div id="users">
-                <p><%= name %></p>
+            <div id="players">
+                
             </div>
         </main>
     </body>

@@ -17,17 +17,23 @@ import { QuestionsRepository } from './db/QuestionsRepository.js';
 import { RedirectController } from './controllers/redirect.js';
 import { CanHelper } from './canHelper.js';
 import { UserIconPusher } from './userIconPusher.js';
+import { GameGateway } from './Game/GameGateway.js';
+import { GameEngine } from './Game/GameEngine.js';
+import { GamePagesController } from './Game/GamePagesController.js';
+import { NextFunction, Request, Response } from 'express';
 
 @Module({
     imports: [],
     controllers: [
         UsersController, AuthControler, SetsControler, CategoriesControler,
         AccountControler, SetsEditorController, CategoriesEditorController,
-        RedirectController
+        RedirectController,
+        GamePagesController
     ],
     providers: [
         DBService, ConfigService, CanHelper, UserIconPusher,
-        UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository
+        UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository,
+        GameGateway, GameEngine
     ],
 })
 export class AppModule implements NestModule {

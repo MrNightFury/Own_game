@@ -1,6 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./mainModule.js";
 import * as cookieParser from 'cookie-parser';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 // import * as WebSocket from "ws";
 // const app = Express();
 // const server = http.createServer(app);
@@ -30,6 +31,7 @@ async function bootstrap() {
     app.useStaticAssets('./static');
     app.setBaseViewsDir('./views');
     app.setViewEngine('ejs');
+    app.useWebSocketAdapter(new IoAdapter(app));
     console.log("Starting app...");
     await app.listen(80).catch(err => {
         console.log(err);
