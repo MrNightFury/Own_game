@@ -15,7 +15,12 @@ document.getElementById("loginForm").addEventListener("submit", event => {
         } else if (result.status == 403) {
             document.querySelector("#bannedLabel").style.display = "inline";
         } else {
-            location.href = "/account/" + data.login;
+            let urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('redirect')) {
+                location.href = urlParams.get('redirect');
+            } else {
+                location.href = "/account/" + data.login;
+            }
         }
     })
 })
