@@ -48,6 +48,12 @@ export class QuestionsRepository {
         return await this.dbService.getDb()?.query("call swapQuestions(?, ?)", [categoryId, number]);
     }
 
+    public async getQuestion(categoryId: number, questionNumber: number) {
+        return await this.dbService.getDb()?.query<Question[]>("select * from questions where category_id=? and question_number=?", [categoryId, questionNumber]).then(res => {
+            return res[0][0];
+        });
+    }
+
     // public async getSetsList() {
     //     return await this.dbService.getDb()?.query<Set[]>("select * from sets").then(res => {
     //         return res[0];

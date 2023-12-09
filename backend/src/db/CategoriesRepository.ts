@@ -13,7 +13,7 @@ export class CategoriesRepository {
     public async getCategoriesListForRound(setId: number, roundNumber: number) {
         return await this.dbService.getDb()?.query<Category[]>(`
             select categories.category_id, category_name, category_author_id
-            from categories left join category_in_round
+            from categories inner join category_in_round
             on categories.category_id = category_in_round.category_id
             where set_id=? and round_number=?
             order by round_number;
