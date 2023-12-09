@@ -20,7 +20,7 @@ export class JWTService {
                 if (req.url.indexOf("api") == 1) {
                     res.status(401).json({message: "Invalid token"});
                 } else if (req.url != "/account/login"){
-                    res.redirect("/account/login");
+                    res.redirect("/account/login?redirect=" + req.url);
                     req.body.logged = false;
                 } else {
                     next();
@@ -36,7 +36,7 @@ export class JWTService {
         next();
     }
 
-    public static verify(token: string) {
+    public static verify(token: string): false | number {
         let decoded;
         try {
             decoded = jwt.verify(token, this.secretKey);
