@@ -21,6 +21,7 @@ import { GameGateway } from './Game/GameGateway.js';
 import { GameEngine } from './Game/GameEngine.js';
 import { GamePagesController } from './Game/GamePagesController.js';
 import { NextFunction, Request, Response } from 'express';
+import { GameDataProvider } from './Game/GameDataProvider.js';
 
 @Module({
     imports: [],
@@ -34,6 +35,7 @@ import { NextFunction, Request, Response } from 'express';
         DBService, ConfigService, CanHelper, UserIconPusher,
         UsersRepository, SetsRepository, RoundsRepository, CategoriesRepository, QuestionsRepository,
         GameGateway, GameEngine
+        GameGateway, GameEngine, GameDataProvider
     ],
 })
 export class AppModule implements NestModule {

@@ -6,7 +6,7 @@
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 
 
-        <link rel="icon" type="images/png" href="images/icon.png">
+        <link rel="icon" type="images/png" href="../images/icon.png">
         <link rel="stylesheet/less" type="text/css" href="../css/game.less">
 
         <script src="/scripts/dev/less.js" data-env="development" type="text/javascript"></script>
@@ -27,21 +27,25 @@
             <div id="title">
                 <div>Own game</div>
                 <div><%- game.title %></div>
+                <div id="roundTitle"></div>
             </div>
+
             <div id="hostContainer">
                 <img class="avatar" id="hostAvatar" src="../images/default_avatar.jpg">
                 <p id="hostLogin">Admin</p>
+                <div id="controlPanel">
+                    <button id="correctAnswerButton">Correct</button>
+                    <button id="wrongAnswerButton">Wrong</button>
+                </div>
                 <span id="becomeHost" onclick="becomeHost()">
                     <p>Become Host</p>
                 </span>
             </div>
-            <div id="game">
-                <div id="screen">
-                    <% for (let i = 0; i < 10; i++) { %>
-                        <div><%= i %></div>
-                    <% }; %>
-                </div>
+
+            <div id="screen">
+                <%- include("ingame/screenText", {text: "Waiting for start"}) %>
             </div>
+
             <div id="chat">
                 <div id="chatbox">
                     <span class="systemMessage">Welcome!</span>

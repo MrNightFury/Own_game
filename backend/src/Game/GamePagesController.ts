@@ -20,7 +20,11 @@ export class GamePagesController {
 
     @Get(":id")
     @Render("game")
-    async getGameScreen(@Req() req: Request) {
+    async getGameScreen(@Req() req: Request, @Res() res: Response) {
+        if (!req.body.logged) {
+            res.redirect("/account/login?redirect=" + req.url);
+            return;
+        }
         let user = await this.repository.getUserById(req.body.id);
         return {
             user: user,

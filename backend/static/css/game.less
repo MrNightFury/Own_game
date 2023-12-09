@@ -21,6 +21,15 @@ body {
     background-color: transparent;
 }
 
+button {
+    height: fit-content;
+    text-decoration: underline;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: .25em;
+}
+
 main {
     display: grid;
     width: 100vw;
@@ -33,7 +42,7 @@ main {
 
     > div {
         background-color: gray;
-        margin: 1em;
+        margin: 16px;
     }
 
     #hostContainer {
@@ -56,11 +65,93 @@ main {
             height: 100%;
             align-items: center;
             justify-content: center;
+            background-color: #575757ac;
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 200%;
+        }
+
+        > #controlPanel {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            bottom: 0;
+            > button {
+                font-size: 200%;
+                &#correctAnswerButton {
+                    color: rgb(0, 200, 0);
+                }
+                &#wrongAnswerButton {
+                    color: rgb(200, 0, 0);
+                }
+            }
         }
     }
 
-    #game {
+    #screen {
         grid-area: game;
+
+        > #screenContentCentered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        > #screenTable {
+            display: flex;
+            font-size: 200%;
+            height: 100%;
+
+            > #tableHeader {
+                display: flex;
+                flex-direction: column;
+                width: 25%;
+                height: 100%;
+                overflow-x: wrap;
+                overflow-wrap: break-word;
+                > div {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    flex: 1;
+                }
+            }
+
+            > #tableBody {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+
+                > .tableRow {
+                    display: flex;
+                    flex: 1;
+                    > .tableCell {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        flex: 1;
+                        &.clickable {
+                            cursor: pointer;
+                            &:hover {
+                                background-color: #989898;
+                            }
+                        }
+                        > span {
+                            text-align: center;
+                            padding: auto;
+                        }
+                    }
+                }
+            }
+        }
+
+        .cell {
+            border-color: white;
+            border-style: solid;
+        }
     }
 
     #chat {
@@ -103,8 +194,13 @@ main {
         > div {
             display: flex;
             flex-direction: column;
+            padding: 2px;
             > img {
                 height: 7.5em;
+            }
+
+            &.active {
+                background-color: rgb(42, 149, 13);
             }
         }
     }

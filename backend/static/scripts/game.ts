@@ -18,15 +18,29 @@ socket.on("error", (m: string) => {
     console.log(m);
 })
 
-socket.on(MessageType.ADD_USER, m => {
-    let data = JSON.parse(m);
+socket.on(MessageType.DEBUG, (m) => {
+    console.log("DEBUG " + JSON.parse(m));
+})
 
+// SET_ROUND
+socket.on(MessageType.SET_ROUND, m => {
+    let roundTitle = document.getElementById("roundTitle");
+    if (roundTitle) {
+        roundTitle.innerHTML = m;
+    }
+})
+
+// ADD_USER
+socket.on(MessageType.ADD_USER, m => {
+    console.log("Adding user");
+    let data = JSON.parse(m);
     let playersContainer = document.getElementById("players");
     if (playersContainer?.innerHTML) {
         playersContainer.innerHTML += data.render;
     }
 })
 
+// CHAT_MESSAGE
 let chatbox = document.getElementById("chatbox");
 socket.on(MessageType.CHAT_MESSAGE, m => {
     let data = JSON.parse(m);
@@ -42,10 +56,16 @@ function postMessage(text: string, isOutcoming: boolean = false) {
     document.getElementById("chatbox")?.appendChild(message);
 }
 
+socket.on(MessageType.REMOVE_USER, m => {
+    let data = JSON.parse(m);
+    document.getElementById("players")?.children[data].remove();
+})
+
 // SET_ADMIN
 socket.on(MessageType.SET_ADMIN, (m) => {
+    console.log("Setting admin")
     let data = JSON.parse(m);
-    document.getElementById("players")?.children[data.index].remove();
+    // document.getElementById("players")?.children[data.index].remove();
     document.getElementById("becomeHost")?.style.setProperty("display", "none");
     document.getElementById("hostAvatar")?.setAttribute("src", "../files/" + data.user.user_avatar_id);
     let login = document.getElementById("hostLogin");
@@ -54,11 +74,23 @@ socket.on(MessageType.SET_ADMIN, (m) => {
     }
 })
 
+// SET_SCREEN
+socket.on(MessageType.SET_SCREEN, (m) => {
+    let data = JSON.parse(m);
+    let screen = document.getElementById("screen");
+    if (screen) {
+        screen.innerHTML = data.render;
+    }
+    socket.emit(MessageType.LOADED, "");
+})
+
 declare global {
     interface Window {
         user: any;
         sendMessage: () => void;
         becomeHost: () => void;
+        start: () => void;
+        chooseQuestion: (category: number, question: number) => void;
     }
 }
 
@@ -74,6 +106,16 @@ window.sendMessage = function() {
 window.becomeHost = function() {
     console.log("Become admin request");
     socket.emit(MessageType.SET_ADMIN, "");
+}
+
+window.start = function() {
+    console.log("Start game request")
+    socket.emit(MessageType.START_GAME, "");
+}
+
+window.chooseQuestion = function(category: number, question: number) {
+    console.log("Choose question " + category + " " + question);
+    socket.emit(MessageType.SELECT_QUESTION, JSON.stringify({category: category, question: question}));
 }
 
 console.log("Engine loaded")

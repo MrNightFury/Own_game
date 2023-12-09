@@ -1,0 +1,24 @@
+<div id="screenTable">
+    <div id="tableHeader">
+        <% for(let i = 0; i < categories.length; i++) { %>
+            <div class="tableHeaderCell cell"><span><%- categories[i].category.category_name %></span></div>
+        <% } %> 
+    </div>
+    <div id="tableBody">
+        <% let maxLength = categories.reduce((max, obj) => (obj.questions.length > max ? obj.questions.length : max), 0); %>
+        <% for(let i = 0; i < categories.length; i++) { %>
+            <% let questions = categories[i].questions %>
+            <div class="tableRow">
+                <% for(let j = 0; j < maxLength; j++) { %>
+                    <% if (solved[i][j]) { %>
+                        <div class="tableCell cell"></div>
+                    <% } else if (j < questions.length) { %>
+                        <div class="tableCell cell clickable" onclick="chooseQuestion(+'<%- i %>', +'<%- j %>')"><span><%- questions[j].question_price %></span></div>
+                    <% } else { %>
+                         <div class="tableCell cell"><span>-</span></div>
+                    <% } %>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</div>
