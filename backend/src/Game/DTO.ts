@@ -16,6 +16,9 @@ export enum MessageType {
     SELECT_QUESTION = "SELECT_QUESTION",
     REMOVE_USER = "REMOVE_USER",
     IS_ANSWER_CORRECT = "IS_CORRECT",
+    SET_ACTIVE_USER = "SET_ACTIVE_USER",
+    WANT_TO_ANSWER = "WANT_TO_ANSWER",
+    SET_TIMER = "SET_TIMER",
 }
 
 export interface QuestionIdentifier {

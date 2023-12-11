@@ -34,16 +34,17 @@
                 <img class="avatar" id="hostAvatar" src="../images/default_avatar.jpg">
                 <p id="hostLogin">Admin</p>
                 <div id="controlPanel">
-                    <button id="correctAnswerButton">Correct</button>
-                    <button id="wrongAnswerButton">Wrong</button>
+                    <button id="correctAnswerButton" onclick="isAnswerCorrect(true)">Correct</button>
+                    <button id="wrongAnswerButton" onclick="isAnswerCorrect(false)">Wrong</button>
                 </div>
+                <div id="answerButton"></div>
                 <span id="becomeHost" onclick="becomeHost()">
                     <p>Become Host</p>
                 </span>
             </div>
 
             <div id="screen">
-                <%- include("ingame/screenText", {text: "Waiting for start"}) %>
+                <%- include("ingame/screenText", {text: "Waiting for start", hint: "You need an host to start"}) %>
             </div>
 
             <div id="chat">

@@ -72,6 +72,9 @@ socket.on(MessageType.SET_ADMIN, (m) => {
     if (login) {
         login.innerHTML = data.user.user_login;
     }
+    if (data.user.user_id == window.user.user_id) {
+        document.getElementById("controlPanel")?.style.setProperty("display", "flex");
+    }
 })
 
 // SET_SCREEN
@@ -84,6 +87,39 @@ socket.on(MessageType.SET_SCREEN, (m) => {
     socket.emit(MessageType.LOADED, "");
 })
 
+// SET_ACTIVE_USER
+socket.on(MessageType.SET_ACTIVE_USER, (m) => {
+    let users = document.querySelectorAll("#players > div");
+    users.forEach((user) => {
+        user.classList.remove("active");
+        console.log(user.classList)
+    })
+
+    let data = JSON.parse(m);
+    let activeUser = document.getElementById("player" + data.userId);
+    if (activeUser) {
+        activeUser.classList.add("active");
+    }
+})
+
+socket.on(MessageType.SET_SCORE, (m) => {
+    let data = JSON.parse(m);
+    let score = document.querySelector("#player" + data.userId + " > .score");
+    if (score) {
+        score.innerHTML = data.score;
+    }
+})
+
+// SET_TIMER
+socket.on(MessageType.SET_TIMER, (m) => {
+    let data = JSON.parse(m);
+    console.log(data);
+    // let timer = document.getElementById("timer");
+    // if (timer) {
+    //     timer.innerHTML = data.time;
+    // }
+})
+
 declare global {
     interface Window {
         user: any;
@@ -91,6 +127,7 @@ declare global {
         becomeHost: () => void;
         start: () => void;
         chooseQuestion: (category: number, question: number) => void;
+        isAnswerCorrect: (isCorrect: boolean) => void;
     }
 }
 
@@ -117,5 +154,16 @@ window.chooseQuestion = function(category: number, question: number) {
     console.log("Choose question " + category + " " + question);
     socket.emit(MessageType.SELECT_QUESTION, JSON.stringify({category: category, question: question}));
 }
+
+window.isAnswerCorrect = function(isCorrect: boolean) {
+    console.log("Is answer correct " + isCorrect);
+    socket.emit(MessageType.IS_ANSWER_CORRECT, JSON.stringify({isCorrect: isCorrect}));
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === ' ') {
+        socket.emit(MessageType.WANT_TO_ANSWER, "");
+    }
+  });
 
 console.log("Engine loaded")

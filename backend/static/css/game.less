@@ -86,9 +86,20 @@ main {
                 }
             }
         }
+        > #answerButton {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            bottom: 0;
+            > button {
+                font-size: 200%;
+                color: rgb(0, 200, 0);
+            }
+        }
     }
 
     #screen {
+        position: relative;
         grid-area: game;
 
         > #screenContentCentered {
@@ -98,6 +109,14 @@ main {
             height: 100%;
             width: 100%;
             cursor: pointer;
+            > .text {
+                font-size: 500%;
+            }
+            > .hint {
+                font-size: 200%;
+                position: absolute;
+                bottom: 0;
+            }
         }
 
         > #screenTable {

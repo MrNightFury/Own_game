@@ -4,6 +4,7 @@ import { QuestionIdentifier, MessageType, SocketMessage, RoundIdentifier } from 
 import * as ejs from "ejs";
 import { Inject, Injectable } from "@nestjs/common";
 import { GameDataProvider } from "./GameDataProvider.js";
+import { FixedTimer } from "./Timer.js";
 
 export interface GameInfo {
     id?: number;
@@ -16,6 +17,8 @@ export enum GameState {
     ACTION,
     CHOOSING_QUESTION,
     WAITING_FOR_ANSWER,
+    CHECKING_ANSWER,
+    USER_LOADING,
 }
 
 export interface Player {
@@ -28,6 +31,9 @@ export interface Player {
 export class Game {
     private roomId: number;
     private info: GameInfo;
+    private config = {
+        timeForQuestion: 30,
+    }
 
     private readonly provider: GameDataProvider;
     private server: Server;
@@ -38,7 +44,12 @@ export class Game {
 
     private players: Player[] = [];
     private admin?: Player;
+
     private currentPlayer: number = -1;
+    private currentChooser: number = -1;
+    private currentQuestionPrice?: number;
+
+    private qustionTimer: FixedTimer = new FixedTimer(10);
 
     private readyCounter: number = 0;
     private readyCallback?: () => void;
@@ -51,6 +62,14 @@ export class Game {
 
         this.state = GameState.WAITING_FOR_START;
         this.round = -1;
+        this.qustionTimer.setNotifyCallback((time) => {
+            this.notifyAll({
+                type: MessageType.SET_TIMER,
+                data: {
+                    time: time
+                }
+            })
+        });
     }
 
     public getInfo() {
@@ -111,13 +130,33 @@ export class Game {
         this.renderRoundMenu();
     }
 
-    public selectQuestion(coords: QuestionIdentifier) {
-        this.state = GameState.WAITING_FOR_ANSWER;
+    public async selectQuestion(coords: QuestionIdentifier) {
+        this.state = GameState.USER_LOADING;
+        if (this.solved[coords.category] == undefined || this.solved[coords.category][coords.question] == undefined) {
+            return;
+        }
         this.solved[coords.category][coords.question] = true;
+        this.currentQuestionPrice = (await this.provider.getQuestionPrice(this.getRound(), coords)) ?? -1;
         this.setScreen(this.provider.getQuestionScreen(this.getRound(), coords), () => {
-            this.state = GameState.CHOOSING_QUESTION;
-            setTimeout(() => this.renderRoundMenu(), 5000);
+            this.state = GameState.WAITING_FOR_ANSWER;
+            this.qustionTimer.start(() => {
+                this.renderRoundMenu();
+            });
         })
+    }
+
+    public addScore(userId: number, score: number) {
+        let player = this.getPlayer(userId);
+        if (player) {
+            player.score += score;
+            this.notifyAll({
+                type: MessageType.SET_SCORE,
+                data: {
+                    userId: userId,
+                    score: player.score
+                }
+            })
+        }
     }
 
     public async setAdmin(user: User, connection: Socket) {
@@ -151,6 +190,26 @@ export class Game {
                 this.startGame();
             }
         })
+        this.admin.connection.on(MessageType.IS_ANSWER_CORRECT, (m: string) => {
+            let data = JSON.parse(m);
+            let player = this.getPlayer(this.currentPlayer);
+            console.log(player);
+            if (!player) {
+                return;
+            }
+            this.notifyAll({
+                type: MessageType.SET_ACTIVE_USER,
+                data: {
+                    userId: -1
+                }
+            })
+            if (data.isCorrect) {
+                this.addScore(player.user.user_id ?? -1, this.currentQuestionPrice ?? -1);
+            } else {
+                this.addScore(player.user.user_id ?? -1, -(this.currentQuestionPrice ?? -1));
+            }
+            this.renderRoundMenu();
+        })
     }
 
     public getPlayer(id?: number) {
@@ -174,6 +233,10 @@ export class Game {
                 },
                 render: await ejs.renderFile("./views/ingame/player.ejs", {user: player.user})
             }));
+            connection.emit(MessageType.SET_SCORE, JSON.stringify({
+                    userId: user.user_id,
+                    score: player.score
+            }))
         }
         if (this.admin) {
             connection.emit(MessageType.SET_ADMIN,
@@ -260,12 +323,22 @@ export class Game {
 
         connection.on(MessageType.SELECT_QUESTION, (m: string) => {
             let coords = JSON.parse(m) as QuestionIdentifier;
-            if (this.state != GameState.CHOOSING_QUESTION
-                || this.currentPlayer != -1 && this.currentPlayer != user.user_id && this.admin?.user.user_id != user.user_id
-                || this.solved[coords.category][coords.question]) {
-                return;
-            }
+            this.currentChooser = user.user_id ?? -1;
             this.selectQuestion(coords);
+        })
+
+        connection.on(MessageType.WANT_TO_ANSWER, () => {
+            if (this.state == GameState.WAITING_FOR_ANSWER) {
+                this.state = GameState.CHECKING_ANSWER;
+                this.qustionTimer?.stop();
+                this.currentPlayer = user.user_id ?? -1;
+                this.notifyAll({
+                    type: MessageType.SET_ACTIVE_USER,
+                    data: {
+                        userId: user.user_id
+                    }
+                })
+            }
         })
         
         console.log(this.players.map(player => player.user.user_login))

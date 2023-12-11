@@ -1,8 +1,9 @@
-<div>
+<div id="player<%- user.user_id %>">
     <% if (user.user_avatar_id) { %>
         <img src="../files/<%- user.user_avatar_id %>">
     <% } else { %>
         <img src="images/default_avatar.jpg">
     <% } %>
     <span><%- user.user_login %></span>
+    <span class="score">0</span>
 </div>

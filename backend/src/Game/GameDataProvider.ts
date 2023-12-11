@@ -120,7 +120,17 @@ export class GameDataProvider {
         }
         let question = await this.questionsRepository.getQuestion(ids?.categoryId, ids.questionNumber);
         // console.log(this.getIdsByCoords({set: 1, round: 1}, id));
-        return ejs.renderFile("./views/ingame/screenText.ejs", {text: question.question_text});
+        return ejs.renderFile("./views/ingame/screenText.ejs", {text: question.question_text, hint: "Press 'Space' to answer"});
         // return "asd";
+    }
+
+    public getQuestion(round: RoundIdentifier, id: QuestionIdentifier) {
+        return this.cache.get(key(round))?.categories[id.category]?.questions[id.question];
+    }
+
+    public async getQuestionPrice(round: RoundIdentifier, id: QuestionIdentifier) {
+        let question = this.getQuestion(round, id);
+        console.log("Question: ", question)
+        return question?.question_price ?? -1;
     }
 }
