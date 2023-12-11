@@ -49,10 +49,12 @@ export class Game {
     private currentChooser: number = -1;
     private currentQuestionPrice?: number;
 
-    private qustionTimer: FixedTimer = new FixedTimer(10);
+    private qustionTimer: FixedTimer;
 
     private readyCounter: number = 0;
     private readyCallback?: () => void;
+
+    private showAnswerScreen?: () => void;
 
     constructor(id: number, info: GameInfo, server: Server, provider: GameDataProvider) {
         this.roomId = id;
@@ -62,11 +64,13 @@ export class Game {
 
         this.state = GameState.WAITING_FOR_START;
         this.round = -1;
+        this.qustionTimer = new FixedTimer(this.config.timeForQuestion);
         this.qustionTimer.setNotifyCallback((time) => {
             this.notifyAll({
                 type: MessageType.SET_TIMER,
                 data: {
-                    time: time
+                    time: time,
+                    timePercent: time / this.config.timeForQuestion * 100
                 }
             })
         });
@@ -108,10 +112,26 @@ export class Game {
         this.readyCallback = callback;
     }
 
-    public renderRoundMenu() {
-        this.setScreen(this.provider.getRoundMenuScreen(this.getRound(), this.solved), () => {
-            this.state = GameState.CHOOSING_QUESTION;
-        });
+    public async renderRoundMenu() {
+        if (this.isRoundCompleted()) {
+            console.log(await this.provider.getRoundsCount(this.info.setId), this.round)
+            if (await this.provider.getRoundsCount(this.info.setId) > this.round) {
+                await this.setRound(this.round + 1);
+                await this.renderRoundMenu();
+            } else {
+                this.state = GameState.WAITING_FOR_START;
+                this.notifyAll({
+                    type: MessageType.SET_SCREEN,
+                    data: {
+                        render: await ejs.renderFile("./views/ingame/screenText.ejs", {text: "Game over", hint: "Create new game to play again"})
+                    }
+                })
+            }   
+        } else {
+            this.setScreen(this.provider.getRoundMenuScreen(this.getRound(), this.solved), () => {
+                this.state = GameState.CHOOSING_QUESTION;
+            });
+        }
     }
 
     public async setRound(round: number) {
@@ -122,12 +142,18 @@ export class Game {
             type: MessageType.SET_ROUND,
             data: this.provider.getRoundTitle(this.getRound())
         })
+        if (round != 1) {
+            this.provider.deleteDataForRound({
+                set: this.info.setId,
+                round: round - 1
+            });
+        }
     }
 
     public async startGame() {
         this.state = GameState.ACTION;
         await this.setRound(1);
-        this.renderRoundMenu();
+        await this.renderRoundMenu();
     }
 
     public async selectQuestion(coords: QuestionIdentifier) {
@@ -139,10 +165,35 @@ export class Game {
         this.currentQuestionPrice = (await this.provider.getQuestionPrice(this.getRound(), coords)) ?? -1;
         this.setScreen(this.provider.getQuestionScreen(this.getRound(), coords), () => {
             this.state = GameState.WAITING_FOR_ANSWER;
+            this.showAnswerScreen = () => {
+                this.notifyAll({
+                    type: MessageType.SET_TIMER,
+                    data: {
+                        time: this.config.timeForQuestion,
+                        timePercent: 100
+                    }
+                })
+                this.setScreen(this.provider.getAnswerScreen(this.getRound(), coords), () => {
+                    setTimeout(() => {
+                        this.renderRoundMenu();
+                    }, 5000);
+                });
+            }
             this.qustionTimer.start(() => {
-                this.renderRoundMenu();
+                this.showAnswerScreen?.();
             });
         })
+    }
+
+    public isRoundCompleted() {
+        for (let i = 0; i < this.solved.length; i++) {
+            for (let j = 0; j < this.solved[i].length; j++) {
+                if (!this.solved[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public addScore(userId: number, score: number) {
@@ -205,10 +256,13 @@ export class Game {
             })
             if (data.isCorrect) {
                 this.addScore(player.user.user_id ?? -1, this.currentQuestionPrice ?? -1);
+                this.currentChooser = player.user.user_id ?? -1;
+                this.showAnswerScreen?.();
             } else {
+                this.state = GameState.WAITING_FOR_ANSWER;
+                this.qustionTimer.resume();
                 this.addScore(player.user.user_id ?? -1, -(this.currentQuestionPrice ?? -1));
             }
-            this.renderRoundMenu();
         })
     }
 
@@ -322,15 +376,18 @@ export class Game {
         })
 
         connection.on(MessageType.SELECT_QUESTION, (m: string) => {
-            let coords = JSON.parse(m) as QuestionIdentifier;
-            this.currentChooser = user.user_id ?? -1;
-            this.selectQuestion(coords);
+            if (this.state == GameState.CHOOSING_QUESTION &&
+                (user.user_id == this.currentChooser || user.user_id == this.admin?.user.user_id || this.currentChooser == -1)) {
+                let coords = JSON.parse(m) as QuestionIdentifier;
+                this.currentChooser = user.user_id ?? -1;
+                this.selectQuestion(coords);
+            }
         })
 
         connection.on(MessageType.WANT_TO_ANSWER, () => {
             if (this.state == GameState.WAITING_FOR_ANSWER) {
                 this.state = GameState.CHECKING_ANSWER;
-                this.qustionTimer?.stop();
+                this.qustionTimer?.pause();
                 this.currentPlayer = user.user_id ?? -1;
                 this.notifyAll({
                     type: MessageType.SET_ACTIVE_USER,

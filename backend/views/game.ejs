@@ -42,10 +42,19 @@
                     <p>Become Host</p>
                 </span>
             </div>
-
-            <div id="screen">
-                <%- include("ingame/screenText", {text: "Waiting for start", hint: "You need an host to start"}) %>
+            
+            <div id="screenWrapper">
+                <div id="screen">
+                    <%- include("ingame/screenText", {text: "Waiting for start", hint: "You need an host to start"}) %>
+                </div>
+                <div id="timer">
+                    <div id="timerBar">
+                        <div id="timerBarLine"></div>
+                    </div>
+                    <div id="timerText">0</div>
+                </div>
             </div>
+            
 
             <div id="chat">
                 <div id="chatbox">

@@ -98,78 +98,104 @@ main {
         }
     }
 
-    #screen {
+    #screenWrapper {
         position: relative;
         grid-area: game;
 
-        > #screenContentCentered {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
+        #screen {
+            position: relative;
+            height: calc(100% - 2em);
             width: 100%;
-            cursor: pointer;
-            > .text {
-                font-size: 500%;
-            }
-            > .hint {
-                font-size: 200%;
-                position: absolute;
-                bottom: 0;
-            }
-        }
-
-        > #screenTable {
-            display: flex;
-            font-size: 200%;
-            height: 100%;
-
-            > #tableHeader {
+            > #screenContentCentered {
                 display: flex;
-                flex-direction: column;
-                width: 25%;
+                align-items: center;
+                justify-content: center;
                 height: 100%;
-                overflow-x: wrap;
-                overflow-wrap: break-word;
-                > div {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    flex: 1;
+                width: 100%;
+                cursor: pointer;
+                > .text {
+                    font-size: 500%;
+                }
+                > .hint {
+                    font-size: 200%;
+                    position: absolute;
+                    bottom: 0;
                 }
             }
-
-            > #tableBody {
+    
+            > #screenTable {
                 display: flex;
-                flex-direction: column;
-                flex: 1;
-
-                > .tableRow {
+                font-size: 200%;
+                height: 100%;
+    
+                > #tableHeader {
                     display: flex;
-                    flex: 1;
-                    > .tableCell {
+                    flex-direction: column;
+                    width: 25%;
+                    height: 100%;
+                    overflow-x: wrap;
+                    overflow-wrap: break-word;
+                    > div {
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
                         flex: 1;
-                        &.clickable {
-                            cursor: pointer;
-                            &:hover {
-                                background-color: #989898;
+                    }
+                }
+    
+                > #tableBody {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+    
+                    > .tableRow {
+                        display: flex;
+                        flex: 1;
+                        > .tableCell {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            flex: 1;
+                            &.clickable {
+                                cursor: pointer;
+                                &:hover {
+                                    background-color: #989898;
+                                }
                             }
-                        }
-                        > span {
-                            text-align: center;
-                            padding: auto;
+                            > span {
+                                text-align: center;
+                                padding: auto;
+                            }
                         }
                     }
                 }
             }
+    
+            .cell {
+                border-color: white;
+                border-style: solid;
+            }
         }
 
-        .cell {
-            border-color: white;
-            border-style: solid;
+        #timer {
+            display: flex;
+            height: 2em;
+            // width: 100%;
+            #timerText {
+                width: 5%;
+                font-size: 2em;
+                text-align: center;
+            }
+            #timerBar {
+                width: 95%;
+                height: 100%;
+                #timerBarLine {
+                    transition: 1s linear;
+                    height: 100%;
+                    width: 100%;
+                    background-color: rgb(0, 0, 200);
+                }
+            }
         }
     }
 
@@ -178,6 +204,7 @@ main {
         grid-area: chat;
         height: 20vh;
         width: 30vw;
+        min-height: 11em;
 
         #chatbox {
             display: flex;
@@ -205,6 +232,8 @@ main {
     }
 
     #players {
+        height: 20vh;
+        min-height: 11em;
         display: flex;
         align-items: center;
         justify-content: center;

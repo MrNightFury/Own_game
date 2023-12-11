@@ -32,6 +32,7 @@ export class GameDataProvider {
                 private readonly questionsRepository: QuestionsRepository){}
 
     public async loadDataForRound(id: RoundIdentifier) {
+        this.getRoundsCount(id.set);
         if (this.cache.get(key(id))) {
             return;
         }
@@ -57,11 +58,13 @@ export class GameDataProvider {
         console.log("Round " + JSON.stringify(id) + " loaded");
     }
 
-    // getCategoriesList(setId: number) {
-    //     return this.categoriesRepository.get
-    // }
+    deleteDataForRound(id: RoundIdentifier) {
+        this.cache.delete(key(id));
+    }
 
-    // get
+    public async getRoundsCount(setId: number): Promise<number> {
+        return this.setsRepository.getRoundsCount(setId);
+    }
 
     public getRoundTitle(id: RoundIdentifier) {
         console.log(JSON.stringify(id));
@@ -122,6 +125,11 @@ export class GameDataProvider {
         // console.log(this.getIdsByCoords({set: 1, round: 1}, id));
         return ejs.renderFile("./views/ingame/screenText.ejs", {text: question.question_text, hint: "Press 'Space' to answer"});
         // return "asd";
+    }
+
+    public async getAnswerScreen(round: RoundIdentifier, id: QuestionIdentifier) {
+        let question = this.getQuestion(round, id);
+        return ejs.renderFile("./views/ingame/screenText.ejs", {text: question?.question_answer ?? "Error getting answer", hint: ""});
     }
 
     public getQuestion(round: RoundIdentifier, id: QuestionIdentifier) {

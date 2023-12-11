@@ -12,12 +12,13 @@ export class FixedTimer {
 
     private tick() {
         this.time--;
-        if (this.notifyCallback && this.time / this.maxTime % 0.2 == 0) {
-            this.notifyCallback(this.time);
-        }
-        if (this.time <= 0) {
+        if (this.time < 0) {
             this.pause();
             this.callback?.();
+            return;
+        }
+        if (this.notifyCallback) {
+            this.notifyCallback(this.time);
         }
     }
 
@@ -34,9 +35,13 @@ export class FixedTimer {
 
     public pause() {
         clearInterval(this.interval);
+        this.interval = undefined;
     }
 
     public resume() {
+        if (this.interval) {
+            return;
+        }
         this.interval = setInterval(this.tick.bind(this), 1000);
     }
 

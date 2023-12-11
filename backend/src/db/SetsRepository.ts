@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { DBService } from './DBService.js';
 import { User } from './model/User.js';
 import { Set } from './model/Set.js';
@@ -79,5 +79,11 @@ export class SetsRepository {
 
     public async deleteRound(setId: number, roundNumber: number) {
         return await this.dbService.getDb()?.query("call deleteRound(?, ?)", [setId, roundNumber]);
+    }
+
+    public async getRoundsCount(setId: number) {
+        return await this.dbService.getDb()?.query<any>("select count(*) as count from rounds where set_id=?", [setId]).then(res => {
+            return res[0][0].count;
+        }) ?? 0;
     }
 }

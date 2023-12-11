@@ -114,6 +114,14 @@ socket.on(MessageType.SET_SCORE, (m) => {
 socket.on(MessageType.SET_TIMER, (m) => {
     let data = JSON.parse(m);
     console.log(data);
+    let timer = document.getElementById("timerBarLine");
+    if (timer) {
+        timer.style.setProperty("width", data.timePercent + "%");
+    }
+    let timerText = document.getElementById("timerText");
+    if (timerText) {
+        timerText.innerHTML = data.time;
+    }
     // let timer = document.getElementById("timer");
     // if (timer) {
     //     timer.innerHTML = data.time;
