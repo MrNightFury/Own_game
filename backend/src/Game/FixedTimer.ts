@@ -7,7 +7,6 @@ export class FixedTimer {
 
     constructor(time: number) {
         this.maxTime = time;
-        console.log(this);
     }
 
     private tick() {

@@ -9,6 +9,7 @@ export interface GameInfo {
     id?: number;
     title: string;
     setId: number;
+    playersCount?: number;
 }
 
 export enum GameState {
@@ -76,7 +77,7 @@ export class Game {
     }
 
     public getInfo() {
-        return {...this.info, id: this.roomId} as GameInfo;
+        return {...this.info, id: this.roomId, playersCount: this.players.length + (this.admin ? 1 : 0)} as GameInfo;
     }
 
     public getRound() {

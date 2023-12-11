@@ -1,4 +1,15 @@
-<div>
-    <span><%- game.title %></span>
-    <a href="/game/<%- game.id %>">Join</a>
+<div class="game">
+    <span class="gameTitle"><%- game.title %></span>
+    <span class="playersCount"><%- game.playersCount %> <% 
+            if (game.playersCount == 0) {
+                %>игроков<%
+            } else if (game.playersCount == 1) {
+                %>игрок<%
+            } else if (game.playersCount < 5) {
+                %>игрока<%
+            } else {
+                %>игроков<%
+            }
+        %></span>
+    <a class="joinButton" href="/game/<%- game.id %>">Join</a>
 </div>
