@@ -6,3 +6,5 @@ backend/dist/app.js
 backend/dist/index.js
 fileservice/build
 fileservice/.idea
+backend/dist/index.js
+backend/dist/app.js
