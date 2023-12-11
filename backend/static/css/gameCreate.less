@@ -1,0 +1,42 @@
+#createGameForm {
+    display: grid;
+    grid-template: auto auto / 1fr auto;
+    grid-template-areas:
+        "title title"
+        "divider divider"
+        "set button";
+    margin-bottom: 2em;
+    
+    #gameTitleContainer {
+        grid-area: title;
+
+        .gameTitleLabel {
+            color: gray;
+            font-size: 200%;
+        }
+        .gameTitle {
+            font-size: 250%;
+        }
+    }
+
+    .divider {
+        grid-area: divider;
+    }
+
+    #choosenSetContainer {
+        grid-area: set;
+
+        .choosenSetLabel {
+            color: gray;
+            font-size: 150%;
+        }
+        .choosenSet {
+            font-size: 150%;
+        }
+    }
+
+    #createButton {
+        font-size: 150%;
+        padding: 0;
+    }
+}

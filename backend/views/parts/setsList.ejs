@@ -30,6 +30,11 @@
                     <% } %>
                 <% } %>
             </td>
+            <% if (locals.choose) { %>
+            <td>
+                <button class="chooseSet" onclick="chooseSet(+'<%- sets[i].set_id %>', '<%- sets[i].set_name %>')">Выбрать</button>
+            </td>
+            <% } %>
         </tr>
     <% } %>
 </table>

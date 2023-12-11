@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet/less" type="text/css" href="css/gameCreate.less">
+        <%- include('parts/head'); %>
+        <title>Своя игра – Вход</title>
+    </head>
+    <body>
+        <%- include('parts/header', {subtitle: "Создать игру", userIcon: userIcon}) %>
+        <main>
+            <div>
+                <form id="createGameForm" class="form">
+                    <div id="gameTitleContainer">
+                        <span class="gameTitleLabel">Название игры: </span>
+                        <span id="titleInput" class="input gameTitle" contenteditable>Название</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div id="choosenSetContainer">
+                        <span class="choosenSetLabel">Выбранный набор: </span>
+                        <span id="choosenSet" class="choosenSet"></span>
+                    </div>
+                    <button id="createButton" onclick="createGame()">Создать</button>
+                </form>
+                <%- include("parts/setsList", { sets: sets, choose: true, displayAuthor: true, userId: userId }) %>
+            </div>
+        </main>
+        <script src="scripts/gameCreate.js" type="text/javascript"></script>
+    </body>
+</html>

@@ -21,6 +21,19 @@ export class GamePagesController {
         }
     }
 
+    @Get("create")
+    @Render("createGame")
+    async createGameScreen(@Req() req: Request, @Res({passthrough: true}) res: Response) {
+        if (!req.body.logged) {
+            res.redirect("/account/login?redirect=" + req.url);
+            return;
+        }
+        return {
+            sets: await this.setsRepository.getSetsListWithLogins(),
+            userId: req.body.id
+        };
+    }
+
     @Get(":id")
     @Render("game")
     async getGameScreen(@Req() req: Request, @Res({passthrough: true}) res: Response) {
@@ -38,5 +51,22 @@ export class GamePagesController {
             user: user,
             game: game
         };
+    }
+
+    @Post()
+    async postGameScreen(@Req() req: Request, @Res() res: Response) {
+        if (!req.body.logged) {
+            res.redirect("/account/login?redirect=" + req.url);
+            return;
+        }
+        if (!req.body.title || !req.body.setId) {
+            res.status(HttpStatusCode.BadRequest).send("Missing title or setId");
+            return;
+        }
+        let id = this.engine.createGame({
+            title: req.body.title,
+            setId: req.body.setId,
+        })
+        res.json({id: id})
     }
 }
