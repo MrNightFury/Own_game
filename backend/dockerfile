@@ -4,5 +4,5 @@ ADD ./package.json /server/
 RUN npm install --omit=dev
 ADD ./dist /server/dist
 ADD ./config.json /server/
-EXPOSE 8000
+EXPOSE 80
 CMD [ "node", "dist/index.js" ]

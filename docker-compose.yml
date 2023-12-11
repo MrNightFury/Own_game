@@ -1,6 +1,28 @@
 version: '3'
 
 services:
+  filesdb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - files_data:/data/db
+      - ./database/mongo.yml:/etc/mongo/mongo.yml
+    entrypoint: ["mongod", "--config", "/etc/mongo/mongo.yml", "--bind_ip", "localhost, filesdb"]
+
+  fileservice:
+    env_file:
+      - ./fileservice/.env
+    image: alpine
+    volumes:
+      - ./fileservice/build:/app
+    command:
+      - "/app/fileservice"
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+
   db:
     build: database/
     volumes:
@@ -14,6 +36,8 @@ services:
     depends_on:
       - db
     build: backend/
+    env_file:
+      - ./backend/.env
     volumes:
       - ./backend/views:/server/views
 
@@ -28,3 +52,4 @@ services:
 
 volumes:
   db_data:
+  files_data:
