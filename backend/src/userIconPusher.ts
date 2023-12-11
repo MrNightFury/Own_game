@@ -1,5 +1,4 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
-import { MiddlewareBuilder } from "@nestjs/core";
 import { NextFunction, Request, Response } from "express";
 import { UsersRepository } from "./db/UsersRepository.js";
 

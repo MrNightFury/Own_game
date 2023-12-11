@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '../config/ConfigService.js';
 import { ResultSetHeader } from "mysql2";
 import { DBService } from './DBService.js';
 import { Role, User } from './model/User.js';

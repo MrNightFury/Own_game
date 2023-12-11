@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Patch, Post, Put, Req, Res } from '@nestjs/common';
-import { UsersRepository } from '../../db/UsersRepository.js';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CategoriesRepository } from '../../db/CategoriesRepository.js';
 import { QuestionsRepository } from '../../db/QuestionsRepository.js';
@@ -66,30 +65,4 @@ export class CategoriesControler {
     async swapQuestions(@Param("id") id: number, @Body() body: any) {
         return await this.questionsRepository.swapQuestions(id, body.number);
     }
-
-    // @Put(":id/categories")
-    // async addCategory(@Param("id") id: number, @Body() body: AddCategoryRequest) {
-    //     body.setId = id;
-    //     return await this.repository.addCategory(body);
-    // }
-
-    // @Delete(":id/categories")
-    // async removeCategory(@Param("id") id: number, @Body() body: AddCategoryRequest) {
-    //     body.setId = id;
-    //     return await this.repository.removeCategory(body);
-    // }
-
-    // @Post(":id/rounds")
-    // async addRound(@Param("id") id: number) {
-    //     return await this.repository.addRound(id);
-    // }
-    // @Put(":id/rounds")
-    // async updateRound(@Param("id") id: number, @Body() body: Round) {
-    //     body.set_id = +id;
-    //     return await this.repository.updateRound(body);
-    // }
-    // @Delete(":id/rounds")
-    // async removeRound(@Param("id") id: number, @Body() body: {round_number: number}) {
-    //     return await this.repository.deleteRound(id, body.round_number);
-    // }
 }

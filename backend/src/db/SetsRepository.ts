@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { DBService } from './DBService.js';
-import { User } from './model/User.js';
 import { Set } from './model/Set.js';
 import { AddCategoryRequest } from '../controllers/dto/setDTO.js';
 import { Round } from './model/Round.js';

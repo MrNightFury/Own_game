@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { type } from "os";
 import { NextFunction, Request, Response } from "express";
 
 export class JWTService {
@@ -11,7 +10,6 @@ export class JWTService {
     }
 
     public static middleware(req: Request, res: Response, next: NextFunction) {
-        console.log(req.body);
         let token = req.cookies["jwt"];
         if (token) {
             let result = JWTService.verify(token);
@@ -54,19 +52,6 @@ export class JWTService {
             return decoded.id;
         }
     }
-
-
-    //         jwt.verify(token, Login.secretKey, (err, decoded) => {
-    //             if (err || !decoded) {
-    //                 res.status(401).json({message: "Invalid token: " + JSON.stringify(err)});
-    //                 return;
-    //             } else {
-    //                 let body = decoded as {login: string};
-    //                 console.log("Login: " + body.login)
-    //                 req.body.login = body.login;
-    //                 req.body.logged = true;
-    //             }
-    //         })
 
     public static async getLogin(token: string) {
         try {

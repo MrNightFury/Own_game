@@ -1,5 +1,3 @@
-import cookieParser from "cookie-parser";
-
 export class GameHelper {
     public static parseToken(cookieString: string): string | undefined {
         let cookies;

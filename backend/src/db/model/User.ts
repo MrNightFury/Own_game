@@ -14,9 +14,4 @@ export interface User extends RowDataPacket {
     user_avatar_id?: string,
     user_role: Role,
     isBanned: boolean
-    // user_id int auto_increment,
-	// user_name varchar(50) not null,
-	// user_password varchar(50) not null,
-	// user_avatar_path tinytext,
-	// primary key (user_id)
 }

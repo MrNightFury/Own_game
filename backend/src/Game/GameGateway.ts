@@ -1,5 +1,5 @@
 import { GameEngine } from "./GameEngine.js";
-import { SubscribeMessage, WebSocketGateway, WebSocketServer,
+import { WebSocketGateway, WebSocketServer,
     OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { GameHelper } from "./GameHelper.js";
@@ -57,11 +57,4 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     afterInit(server: Server) {
         this.engine.setSocket(server);
     }
-
-    // @SubscribeMessage('sendMessage')
-    // async handleSendMessage(client: Socket, payload: any) {
-    //     console.log(payload)
-    //     this.server?.emit('sendMessage', payload)
-    //     return payload;
-    // }
 }

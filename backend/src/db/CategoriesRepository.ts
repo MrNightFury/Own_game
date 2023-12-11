@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { DBService } from './DBService.js';
-import { Round } from './model/Round.js';
 import { Category, CategoryWithData } from './model/Category.js';
 import { CategoryFilter } from './Filters.js';
 

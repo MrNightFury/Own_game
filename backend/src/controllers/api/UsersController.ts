@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { DBService } from '../../db/DBService.js';
 import { Role, User } from '../../db/model/User.js';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
@@ -48,12 +47,6 @@ export class UsersController {
         return this.repository.deleteUser(body.id);
     }
 
-    // @Post(":id/icon")
-    // @UseInterceptors(FileInterceptor("file"))
-    // async uploadIcon(@Param("id") id: number, @UploadedFile() file: Express.Multer.File) {
-    //     console.log(file);
-    //     return {};
-    // }
     @Post(":id/icon")
     @UseInterceptors(FileInterceptor("file"))
     async uploadIcon(@Param("id") id: number, @UploadedFile() file: Express.Multer.File, @Req() req: Request, @Res({passthrough: true}) res: Response) {

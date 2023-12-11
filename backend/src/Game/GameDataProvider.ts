@@ -67,7 +67,6 @@ export class GameDataProvider {
     }
 
     public getRoundTitle(id: RoundIdentifier) {
-        console.log(JSON.stringify(id));
         return this.cache.get(key(id))?.title ?? "Error getting round title";
     }
 
@@ -75,7 +74,6 @@ export class GameDataProvider {
         if (!this.cache.get(key(id))) {
             return "Data not loaded";
         }
-        console.log(solvedQuestions);
         return ejs.renderFile("./views/ingame/screenTable.ejs", {
             categories: this.cache.get(key(id))?.categories,
             solved: solvedQuestions });
@@ -122,9 +120,7 @@ export class GameDataProvider {
             return "Error getting question";
         }
         let question = await this.questionsRepository.getQuestion(ids?.categoryId, ids.questionNumber);
-        // console.log(this.getIdsByCoords({set: 1, round: 1}, id));
         return ejs.renderFile("./views/ingame/screenText.ejs", {text: question.question_text, hint: "Press 'Space' to answer"});
-        // return "asd";
     }
 
     public async getAnswerScreen(round: RoundIdentifier, id: QuestionIdentifier) {
@@ -138,7 +134,6 @@ export class GameDataProvider {
 
     public async getQuestionPrice(round: RoundIdentifier, id: QuestionIdentifier) {
         let question = this.getQuestion(round, id);
-        console.log("Question: ", question)
         return question?.question_price ?? -1;
     }
 }

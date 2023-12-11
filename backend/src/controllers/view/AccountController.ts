@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Req, Res } from '@nestjs/common';
+import { Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
 import { SetsRepository } from '../../db/SetsRepository.js';
 import { Request, Response } from 'express';
 import { UsersRepository } from '../../db/UsersRepository.js';
@@ -42,10 +42,6 @@ export class AccountControler {
     @Render("accountPage")
     @Get(":login")
     async getUserPage(@Param() params: any, @Req() req: Request, @Res() res: Response) {
-        // if (!req.body.logged) {
-        //     res.redirect("/account/login");
-        //     return;
-        // }
         let viewer
         if (req.body.id) {
             viewer = await this.userRepository.getUserById(req.body.id);

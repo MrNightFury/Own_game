@@ -2,9 +2,8 @@ import { Server, Socket } from "socket.io";
 import { User } from "../db/model/User.js";
 import { QuestionIdentifier, MessageType, SocketMessage, RoundIdentifier } from "./DTO.js";
 import * as ejs from "ejs";
-import { Inject, Injectable } from "@nestjs/common";
 import { GameDataProvider } from "./GameDataProvider.js";
-import { FixedTimer } from "./Timer.js";
+import { FixedTimer } from "./FixedTimer.js";
 
 export interface GameInfo {
     id?: number;
@@ -228,7 +227,6 @@ export class Game {
                 type: MessageType.SET_ADMIN, 
                 data: {
                     user: user,
-                    // render: await ejs.renderFile("./views/ingame/player.ejs", {user: user})
                 }
             });
         } else {
@@ -267,11 +265,8 @@ export class Game {
     }
 
     public getPlayer(id?: number) {
-        console.log("Getting player " + id)
         let player = this.players.find(player => player.user.user_id == id);
-        console.log(player)
         player = player ?? this.admin;
-        console.log(player ?? this.admin?.user.user_id == id)
         return this.players.find(player => player.user.user_id == id) ?? (this.admin?.user.user_id == id ? this.admin : undefined);
     }
 
@@ -296,7 +291,6 @@ export class Game {
             connection.emit(MessageType.SET_ADMIN,
                 JSON.stringify({
                     user: this.admin.user,
-                    // render: await ejs.renderFile("./views/ingame/player.ejs", {user: this.admin.user})
                 })
             );
         }
@@ -309,7 +303,6 @@ export class Game {
         }
 
         let player = this.getPlayer(user.user_id);
-        // console.log("Player: ", player)
         if (player) {
             // If user was in game before
             console.log("Reconnecting " + user.user_login)
@@ -348,8 +341,6 @@ export class Game {
                 return;
             }
             player.active = false;
-            // let i = this.players.findIndex(player => player.user.user_id == user.user_id);
-            // this.players[i].active = false;
         })
 
         connection.on(MessageType.SET_ADMIN, () => {

@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Post, Res } from '@nestjs/common';
-import { User } from '../../db/model/User.js';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { AuthRequest } from '../dto/UserDTOs.js';
 import { Response } from 'express';

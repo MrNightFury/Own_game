@@ -2,7 +2,6 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { Role, User } from "./db/model/User.js";
 import { UsersRepository } from "./db/UsersRepository.js";
 import { SetsRepository } from "./db/SetsRepository.js";
-import { CategoriesControler } from "./controllers/api/CategoriesController.js";
 import { CategoriesRepository } from "./db/CategoriesRepository.js";
 import { NextFunction, Request, Response } from "express";
 

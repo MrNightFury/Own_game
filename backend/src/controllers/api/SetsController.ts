@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
-import { Set } from '../../db/model/Set.js';
 import { SetsRepository } from '../../db/SetsRepository.js';
 import { AddCategoryRequest } from '../dto/setDTO.js';
 import { Round } from '../../db/model/Round.js';

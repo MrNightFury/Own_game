@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
 import { SetsRepository } from '../../db/SetsRepository.js';
-import { UsersRepository } from '../../db/UsersRepository.js';
 import { Request, Response } from 'express';
 import { RoundsRepository } from '../../db/RoundsRepository.js';
 import { CategoriesRepository } from '../../db/CategoriesRepository.js';

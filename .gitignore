@@ -1,4 +1,8 @@
 backend/node_modules/
 backend/package-lock.json
-backend/dist/
+backend/dist/**
 backend/nest-app
+backend/dist/app.js
+backend/dist/index.js
+fileservice/build
+fileservice/.idea
