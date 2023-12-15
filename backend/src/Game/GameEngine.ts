@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Game, GameInfo } from "./Game.js";
 import { Server } from "socket.io";
-import { UsersRepository } from "../db/repositories/UsersRepository.js";
 import { GameDataProvider } from "./GameDataProvider.js";
 
 @Injectable()
@@ -10,25 +9,10 @@ export class GameEngine {
     private games: Game[] = [];
     private server: any;
     
-    constructor(private readonly usersRepository: UsersRepository,
-                private readonly provider: GameDataProvider){}
+    constructor(private readonly provider: GameDataProvider){}
 
     public setSocket(socket: Server) {
         this.server = socket;
-        let data: GameInfo[] = [{
-            title: "Game 1",
-            setId: 1
-        }, {
-            title: "Game 2",
-            setId: 1
-        }, {
-            title: "Game 3",
-            setId: 1
-        }, {
-            title: "Game 4",
-            setId: 1
-        }];
-        data.forEach(info => this.createGame(info));
     }
 
     public createGame(info: GameInfo): number {

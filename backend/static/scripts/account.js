@@ -78,7 +78,6 @@ function becomeEditor() {
 }
 
 function banUser(state) {
-    // :id/ban
     fetch("/api/users/" + userId + "/ban", {
         method: "POST",
         body: JSON.stringify({

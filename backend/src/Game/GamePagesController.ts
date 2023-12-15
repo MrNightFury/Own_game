@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Render, Req, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Post, Render, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UsersRepository } from '../db/repositories/UsersRepository.js';
 import { GameEngine } from './GameEngine.js';
-import { HttpStatusCode } from 'axios';
 import { SetsRepository } from '../db/repositories/SetsRepository.js';
 
 @Controller("game")
@@ -44,7 +43,7 @@ export class GamePagesController {
         let user = await this.repository.getUserById(req.body.id);
         let game = this.engine.getGameById(+req.params.id)?.getInfo()
         if (!game) {
-            res.status(HttpStatusCode.NotFound).send();
+            res.status(HttpStatus.NOT_FOUND).send();
             return;
         }
         return {
@@ -60,7 +59,7 @@ export class GamePagesController {
             return;
         }
         if (!req.body.title || !req.body.setId) {
-            res.status(HttpStatusCode.BadRequest).send("Missing title or setId");
+            res.status(HttpStatus.BAD_REQUEST).send("Missing title or setId");
             return;
         }
         let id = this.engine.createGame({

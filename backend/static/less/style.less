@@ -17,7 +17,7 @@
 
 button {
     height: fit-content;
-    color: rgb(33, 112, 185);
+    color: #a5d4ff;
     // text-decoration: underline;
     background-color: transparent;
     border: none;
@@ -46,7 +46,7 @@ body {
     background-color: black;
     color: white;
 
-    header {
+    > header {
         display: grid;
         grid-template: auto auto auto / auto 1fr auto;
         grid-template-areas:
@@ -57,20 +57,20 @@ body {
         background-color: var(--accent-color);
         padding: .5em 0 .5em;
 
-        #icon {
+        > #icon {
             margin: 0 1em 0 .5em;
             height: 5em;
             grid-area: icon;
         }
 
-        #title {
+        > #title {
             font-size: 30px;
         }
-        #subtitle {
+        > #subtitle {
             font-size: 20px;
         }
 
-        #profileIcon {
+        > #profileIcon {
             grid-area: profile;
             height: 4em;
             margin: auto 1em auto 1em;
@@ -79,7 +79,7 @@ body {
             
         }
 
-        #navigation {
+        > #navigation {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -87,7 +87,7 @@ body {
             margin: 0;
             padding: 0;
 
-            li {
+            > li {
                 position: relative;
                 height: fit-content;
                 margin: 0 .2em 0 .2em;
@@ -124,9 +124,8 @@ table {
     width: calc(75vw);
     position: relative;
 }
+
 tr > td {
-    // &:nth-child(1),
-    // // &:nth-child(3),
     &:nth-child(3) {
         max-width: 10em;
         overflow-wrap: break-word;
@@ -177,7 +176,6 @@ input[type="number"] {
     input[type="submit"] {
         height: fit-content;
         color: rgb(33, 112, 185);
-        // text-decoration: underline;
         background-color: transparent;
         border: none;
         cursor: pointer;
@@ -186,77 +184,3 @@ input[type="number"] {
     }
 
 }
-// table {
-//     position: relative;
-//     width: 100%;
-
-//     colgroup {
-//         col {
-//             min-width: fit-content;
-//             width: 100px;
-//         }
-//         col:nth-child(3) {
-//             width: auto;
-//         }
-//     }
-
-//     td {
-//         border: 0em;
-//         margin: 0;
-//         padding: 0;
-//     }
-
-//     tr {
-//         background-color: gray;
-//     }
-// }
-
-// body {
-//     div {
-//        background-color: blue; 
-//     }
-//     height: 100vh;
-//     overflow-y: hidden;
-
-//     margin: 0;
-//     display: flex;
-//     flex-direction: column;
-
-//     background-color: gray;
-//     color: white;
-// }
-
-// main {
-//     display: grid;
-//     grid-template: auto 1fr / auto 1fr;
-//     grid-template-areas: 
-//         "admin game"
-//         "panel users";
-// }
-
-// #admin {
-//     grid-area: "admin";
-
-//     img {
-//         height: 15vh;
-//     }
-// }
-
-// #game {
-//     grid-area: "game";
-    
-// }
-
-// #screen {
-    
-// }
-
-// #panel {
-//     grid-area: "panel";
-    
-// }
-
-// #users {
-//     grid-area: "users";
-    
-// }
