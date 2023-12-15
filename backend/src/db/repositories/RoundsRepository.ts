@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { DBService } from './DBService.js';
-import { Round } from './model/Round.js';
+import { DBService } from '../DBService.js';
+import { Round } from '../model/Round.js';
 
 @Injectable()
 export class RoundsRepository {

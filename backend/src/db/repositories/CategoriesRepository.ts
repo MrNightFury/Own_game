@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { DBService } from './DBService.js';
-import { Category, CategoryWithData } from './model/Category.js';
-import { CategoryFilter } from './Filters.js';
+import { DBService } from '../DBService.js';
+import { Category, CategoryWithData } from '../model/Category.js';
+import { CategoryFilter } from '../Filters.js';
 
 @Injectable()
 export class CategoriesRepository {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { DBService } from './DBService.js';
-import { Set } from './model/Set.js';
-import { AddCategoryRequest } from '../controllers/dto/setDTO.js';
-import { Round } from './model/Round.js';
+import { DBService } from '../DBService.js';
+import { Set } from '../model/Set.js';
+import { AddCategoryRequest } from '../../controllers/dto/setDTO.js';
+import { Round } from '../model/Round.js';
 
 @Injectable()
 export class SetsRepository {

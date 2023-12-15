@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { DBService } from './DBService.js';
-import { Question } from './model/Question.js';
+import { DBService } from '../DBService.js';
+import { Question } from '../model/Question.js';
 
 @Injectable()
 export class QuestionsRepository {
