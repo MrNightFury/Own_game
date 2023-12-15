@@ -20,7 +20,7 @@ export class AuthControler {
         });
         if (!user || !user.user_id) {
             res.status(404).json({message: "User not found"});
-        } else if (user.user_password != req.password) {
+        } else if (!JWTService.comparePassword(req.password, user.user_password)) {
             res.status(401).json({message: "Incorrect password"});
         } else if (user.isBanned) {
             res.status(403).send();
@@ -44,7 +44,7 @@ export class AuthControler {
             })
             return;
         }
-        let result = await this.repository.createUser(body.login, body.password);
+        let result = await this.repository.createUser(body.login, JWTService.encryptPassword(body.password));
         if (result?.affectedRows) {
             res.status(201).cookie("jwt", JWTService.generateToken(result.insertId));
         } else {

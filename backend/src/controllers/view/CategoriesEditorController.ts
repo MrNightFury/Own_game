@@ -1,17 +1,13 @@
 import { Body, Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
-import { SetsRepository } from '../../db/repositories/SetsRepository.js';
 import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { Request, Response } from 'express';
-import { RoundsRepository } from '../../db/repositories/RoundsRepository.js';
 import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
 import { CanHelper } from '../../canHelper.js';
 import { QuestionsRepository } from '../../db/repositories/QuestionsRepository.js';
 
 @Controller("categories")
 export class CategoriesEditorController {
-    constructor(private readonly setsRepository: SetsRepository,
-                private readonly usersRepository: UsersRepository,
-                private readonly roundsRepository: RoundsRepository,
+    constructor(private readonly usersRepository: UsersRepository,
                 private readonly categoriesRepository: CategoriesRepository,
                 private readonly questionsRepository: QuestionsRepository) {
         console.log("Sets editor controller loaded");

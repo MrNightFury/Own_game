@@ -53,6 +53,10 @@ export class JWTService {
         }
     }
 
+    public static generateToken(id: number) {
+        return jwt.sign({id: id}, this.secretKey, {expiresIn: "12h"});
+    }
+
     public static async getLogin(token: string) {
         try {
             let decoded = jwt.verify(token, this.secretKey) as {login: string};
@@ -60,10 +64,6 @@ export class JWTService {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    public static generateToken(id: number) {
-        return jwt.sign({id: id}, this.secretKey, {expiresIn: "12h"});
     }
 
     public static encryptPassword(password: string) {

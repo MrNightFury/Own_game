@@ -3,6 +3,7 @@ import { SetsRepository } from '../../db/repositories/SetsRepository.js';
 import { Request, Response } from 'express';
 import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
+import { CanHelper } from '../../canHelper.js';
 
 @Controller("account")
 export class AccountControler {
@@ -57,6 +58,7 @@ export class AccountControler {
             sets: await this.setsRepository.getSetsByAuthor(user.user_id),
             categories: await this.categoriesRepository.getCategoriesByAuthorWithData(user.user_id),
             canEdit: user.user_id == req.body.id,
+            canCreate: CanHelper.canCreate(user.user_id),
             canBan: viewer?.user_role == 'moderator' || viewer?.user_role == 'admin',
             viewer: viewer ?? -1,
             edit: req.query.edit ? req.query.edit : false
