@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
-import { SetsRepository } from '../../db/SetsRepository.js';
-import { UsersRepository } from '../../db/UsersRepository.js';
+import { SetsRepository } from '../../db/repositories/SetsRepository.js';
+import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { Request, Response } from 'express';
-import { RoundsRepository } from '../../db/RoundsRepository.js';
-import { CategoriesRepository } from '../../db/CategoriesRepository.js';
+import { RoundsRepository } from '../../db/repositories/RoundsRepository.js';
+import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
 import { CanHelper } from '../../canHelper.js';
-import { QuestionsRepository } from '../../db/QuestionsRepository.js';
+import { QuestionsRepository } from '../../db/repositories/QuestionsRepository.js';
 
 @Controller("categories")
 export class CategoriesEditorController {

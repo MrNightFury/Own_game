@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Render, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { UsersRepository } from '../db/UsersRepository.js';
+import { UsersRepository } from '../db/repositories/UsersRepository.js';
 import { GameEngine } from './GameEngine.js';
 import { HttpStatusCode } from 'axios';
-import { SetsRepository } from '../db/SetsRepository.js';
+import { SetsRepository } from '../db/repositories/SetsRepository.js';
 
 @Controller("game")
 export class GamePagesController {

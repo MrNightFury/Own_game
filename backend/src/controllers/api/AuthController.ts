@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { UsersRepository } from '../../db/UsersRepository.js';
+import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { AuthRequest } from '../dto/UserDTOs.js';
 import { Response } from 'express';
 import { JWTService } from '../../JWTService.js';

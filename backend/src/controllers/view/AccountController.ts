@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
-import { SetsRepository } from '../../db/SetsRepository.js';
+import { SetsRepository } from '../../db/repositories/SetsRepository.js';
 import { Request, Response } from 'express';
-import { UsersRepository } from '../../db/UsersRepository.js';
-import { CategoriesRepository } from '../../db/CategoriesRepository.js';
+import { UsersRepository } from '../../db/repositories/UsersRepository.js';
+import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
 
 @Controller("account")
 export class AccountControler {

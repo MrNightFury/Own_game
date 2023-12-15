@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { SetsRepository } from "../db/SetsRepository.js";
-import { RoundsRepository } from "../db/RoundsRepository.js";
-import { CategoriesRepository } from "../db/CategoriesRepository.js";
-import { QuestionsRepository } from "../db/QuestionsRepository.js";
+import { SetsRepository } from "../db/repositories/SetsRepository.js";
+import { RoundsRepository } from "../db/repositories/RoundsRepository.js";
+import { CategoriesRepository } from "../db/repositories/CategoriesRepository.js";
+import { QuestionsRepository } from "../db/repositories/QuestionsRepository.js";
 import { Question } from "../db/model/Question.js";
 import { Category } from "../db/model/Category.js";
 import { QuestionIdentifier, RoundIdentifier } from "./DTO.js";

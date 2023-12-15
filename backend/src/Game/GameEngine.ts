@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Game, GameInfo } from "./Game.js";
 import { Server } from "socket.io";
-import { UsersRepository } from "../db/UsersRepository.js";
+import { UsersRepository } from "../db/repositories/UsersRepository.js";
 import { GameDataProvider } from "./GameDataProvider.js";
 
 @Injectable()

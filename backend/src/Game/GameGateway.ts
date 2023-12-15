@@ -4,7 +4,7 @@ import { WebSocketGateway, WebSocketServer,
 import { Server, Socket } from "socket.io";
 import { GameHelper } from "./GameHelper.js";
 import { JWTService } from "../JWTService.js";
-import { UsersRepository } from "../db/UsersRepository.js";
+import { UsersRepository } from "../db/repositories/UsersRepository.js";
 
 
 @WebSocketGateway()

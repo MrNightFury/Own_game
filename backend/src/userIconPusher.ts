@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
-import { UsersRepository } from "./db/UsersRepository.js";
+import { UsersRepository } from "./db/repositories/UsersRepository.js";
 
 @Injectable()
 export class UserIconPusher implements NestMiddleware {

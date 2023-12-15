@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Render, Req, Res } from '@nestjs/common';
-import { SetsRepository } from '../../db/SetsRepository.js';
+import { SetsRepository } from '../../db/repositories/SetsRepository.js';
 import { Request, Response } from 'express';
-import { RoundsRepository } from '../../db/RoundsRepository.js';
-import { CategoriesRepository } from '../../db/CategoriesRepository.js';
+import { RoundsRepository } from '../../db/repositories/RoundsRepository.js';
+import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
 import { Category } from '../../db/model/Category.js';
 import { Round } from '../../db/model/Round.js';
 import { CanHelper } from '../../canHelper.js';

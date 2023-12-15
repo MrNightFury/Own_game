@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { CategoriesRepository } from '../../db/CategoriesRepository.js';
-import { QuestionsRepository } from '../../db/QuestionsRepository.js';
+import { CategoriesRepository } from '../../db/repositories/CategoriesRepository.js';
+import { QuestionsRepository } from '../../db/repositories/QuestionsRepository.js';
 import { CanHelper } from '../../canHelper.js';
 
 @Controller("api/categories")

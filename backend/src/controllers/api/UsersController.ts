@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Role, User } from '../../db/model/User.js';
-import { UsersRepository } from '../../db/UsersRepository.js';
+import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '../../config/ConfigService.js';

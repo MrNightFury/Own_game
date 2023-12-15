@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req, Res } from '@nestjs/common';
-import { UsersRepository } from '../../db/UsersRepository.js';
+import { UsersRepository } from '../../db/repositories/UsersRepository.js';
 import { Request, Response } from 'express';
-import { SetsRepository } from '../../db/SetsRepository.js';
+import { SetsRepository } from '../../db/repositories/SetsRepository.js';
 import { AddCategoryRequest } from '../dto/setDTO.js';
 import { Round } from '../../db/model/Round.js';
 import { CanHelper } from '../../canHelper.js';
