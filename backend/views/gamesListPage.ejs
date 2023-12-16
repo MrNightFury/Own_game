@@ -9,6 +9,7 @@
         <%- include('parts/header', {subtitle: "Игры", userIcon: userIcon}) %>
         <main>
             <div>
+                <a href="game/create" style="font-size: 150%;">Create game</a>
                 <% for( let i = 0; i < games.length; i++ ) { %>
                     <%- include("parts/game", { game: games[i] }) %>
                 <% } %>
