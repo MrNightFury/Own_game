@@ -48,6 +48,7 @@ export class Game {
     private currentPlayer: number = -1;
     private currentChooser: number = -1;
     private currentQuestionPrice?: number;
+    private lastScreen?: string;
 
     private qustionTimer: FixedTimer;
 
@@ -110,6 +111,7 @@ export class Game {
         });
         this.readyCounter = 0;
         this.readyCallback = callback;
+        this.lastScreen = text;
     }
 
     public async renderRoundMenu() {
@@ -241,12 +243,17 @@ export class Game {
             }
         })
         this.admin.connection.on(MessageType.IS_ANSWER_CORRECT, (m: string) => {
+            if (this.state != GameState.CHECKING_ANSWER) {
+                return;
+            }
             let data = JSON.parse(m);
             let player = this.getPlayer(this.currentPlayer);
             console.log(player);
             if (!player) {
                 return;
             }
+
+            this.currentPlayer = -1;
             this.notifyAll({
                 type: MessageType.SET_ACTIVE_USER,
                 data: {
@@ -254,6 +261,7 @@ export class Game {
                 }
             })
             if (data.isCorrect) {
+                this.state = GameState.CHOOSING_QUESTION;
                 this.addScore(player.user.user_id ?? -1, this.currentQuestionPrice ?? -1);
                 this.currentChooser = player.user.user_id ?? -1;
                 this.showAnswerScreen?.();
@@ -301,6 +309,8 @@ export class Game {
             connection.emit(MessageType.SET_SCREEN, JSON.stringify({
                 render: await this.provider.getRoundMenuScreen(this.getRound(), this.solved)
             }))
+        if (this.lastScreen) {
+            connection.emit(MessageType.SET_SCREEN, JSON.stringify({ render: this.lastScreen }));
         }
 
         let player = this.getPlayer(user.user_id);
@@ -362,7 +372,7 @@ export class Game {
 
         connection.on(MessageType.LOADED, () => {
             this.readyCounter++;
-            if (this.readyCounter == this.players.length) {
+            if (this.readyCounter == this.players.length + (this.admin ? 1 : 0)) {
                 this.readyCallback?.();
             }
         })
@@ -377,7 +387,7 @@ export class Game {
         })
 
         connection.on(MessageType.WANT_TO_ANSWER, () => {
-            if (this.state == GameState.WAITING_FOR_ANSWER) {
+            if (this.state == GameState.WAITING_FOR_ANSWER && this.admin?.user.user_id != user.user_id) {
                 this.state = GameState.CHECKING_ANSWER;
                 this.qustionTimer?.pause();
                 this.currentPlayer = user.user_id ?? -1;
