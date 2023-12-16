@@ -3,8 +3,6 @@ version: '3'
 services:
   filesdb:
     image: mongo:latest
-    ports:
-      - 27017:27017
     volumes:
       - files_data:/data/db
       - ./database/mongo.yml:/etc/mongo/mongo.yml
@@ -18,8 +16,6 @@ services:
       - ./fileservice/build:/app
     command:
       - "/app/fileservice"
-    ports:
-      - 8080:80
     depends_on:
       - db
 
@@ -29,8 +25,6 @@ services:
       - db_data:/var/lib/mysql
     env_file:
       - database/.env
-    ports:
-      - 3307:3306
   
   node:
     depends_on:
@@ -46,7 +40,7 @@ services:
     depends_on:
       - node
     ports:
-      - 80:80
+      - 8081:80
     volumes:
       - ./backend/static:/site
 
