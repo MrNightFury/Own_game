@@ -25,7 +25,7 @@ export class RedirectController {
         res.sendFile(filename);
     }
 
-    @Get("/")
+    @Get("")
     async getSite(@Res() res: Response) {
         res.redirect("/sets/list");
     }
