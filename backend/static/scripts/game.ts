@@ -65,7 +65,6 @@ socket.on(MessageType.REMOVE_USER, m => {
 socket.on(MessageType.SET_ADMIN, (m) => {
     console.log("Setting admin")
     let data = JSON.parse(m);
-    // document.getElementById("players")?.children[data.index].remove();
     document.getElementById("becomeHost")?.style.setProperty("display", "none");
     document.getElementById("hostAvatar")?.setAttribute("src", "../files/" + data.user.user_avatar_id);
     let login = document.getElementById("hostLogin");
@@ -122,10 +121,6 @@ socket.on(MessageType.SET_TIMER, (m) => {
     if (timerText) {
         timerText.innerHTML = data.time;
     }
-    // let timer = document.getElementById("timer");
-    // if (timer) {
-    //     timer.innerHTML = data.time;
-    // }
 })
 
 declare global {
@@ -172,6 +167,6 @@ document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
         socket.emit(MessageType.WANT_TO_ANSWER, "");
     }
-  });
+});
 
-console.log("Engine loaded")
+console.log("Engine loaded");

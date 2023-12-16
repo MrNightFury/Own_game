@@ -23,7 +23,6 @@ document.getElementById("registerForm").addEventListener("submit", event => {
             // location.href = "/account/" + data.login;
         } else if (result.status == 201) {
             location.href = "/account/" + data.login;
-            // console.log(result);
         }
     })
 })
