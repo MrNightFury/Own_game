@@ -303,12 +303,6 @@ export class Game {
                 })
             );
         }
-        
-        // Debug
-        if (this.state == GameState.CHOOSING_QUESTION) {
-            connection.emit(MessageType.SET_SCREEN, JSON.stringify({
-                render: await this.provider.getRoundMenuScreen(this.getRound(), this.solved)
-            }))
         if (this.lastScreen) {
             connection.emit(MessageType.SET_SCREEN, JSON.stringify({ render: this.lastScreen }));
         }
