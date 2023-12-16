@@ -1,5 +1,5 @@
 import { All, Controller, Get, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request, Response, response } from 'express';
 import { ConfigService } from '../config/ConfigService.js';
 import { FileStorageConfig } from '../config/Configs.js';
 import path from 'path';
@@ -23,5 +23,10 @@ export class RedirectController {
         let filename = req.url.split("/").slice(2).join("/");
         filename = path.join(process.cwd(), "dist", filename);
         res.sendFile(filename);
+    }
+
+    @Get("/")
+    async getSite(@Res() res: Response) {
+        res.redirect("/sets/list");
     }
 }

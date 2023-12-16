@@ -13,6 +13,7 @@ export class JWTService {
         let token = req.cookies["jwt"];
         if (token) {
             let result = JWTService.verify(token);
+            console.log(result);
             if (result == false) {
                 console.log(req.url)
                 if (req.url.indexOf("api") == 1) {
