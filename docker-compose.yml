@@ -12,7 +12,7 @@ services:
     env_file:
       - ./fileservice/.env
     build: ./fileservice
-    entrypoint: [ "/app/fileservice" ]
+    entrypoint: [ "/bin/sh" ]
     depends_on:
       - db
 
