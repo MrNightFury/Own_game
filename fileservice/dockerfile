@@ -1,3 +1,4 @@
 FROM alpine
-ADD ./build/fileservice /app/fileservice
-ENTRYPOINT [ "/app/fileservice" ]
+ADD ./build/fileservice /app
+EXPOSE 80
+ENTRYPOINT [ "/app" ]
