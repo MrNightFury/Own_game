@@ -11,9 +11,7 @@ services:
   fileservice:
     env_file:
       - ./fileservice/.env
-    image: alpine
-    volumes:
-      - ./fileservice/build:/app
+    build: ./fileservice
     command:
       - "/app/fileservice"
     depends_on:
