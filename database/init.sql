@@ -8,7 +8,7 @@ USE own_game_db;
 create table users (
     user_id        int auto_increment 											primary key,
     user_login     varchar(50)                                                  not null,
-    user_password  varchar(50)                                                  not null,
+    user_password  text                                                         not null,
     user_avatar_id tinytext                                                     null,
     user_role      enum ('user', 'editor', 'moderator', 'admin') default 'user' not null,
     isBanned       tinyint(1)                                    default 0      not null
