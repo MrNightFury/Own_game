@@ -56,6 +56,7 @@ export class CategoriesRepository {
             return res[0];
         }) ?? [];
     }
+    
     public async getCategoriesByAuthorWithData(id: number) {
         return await this.dbService.getDb()?.query<CategoryWithData[]>(`select
         category_id, user_id, user_login, category_name, category_author_id, countQuestionsByCategory(category_id) as questions_count

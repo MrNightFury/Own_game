@@ -6,7 +6,7 @@ FLUSH PRIVILEGES;
 USE own_game_db;
 
 create table users (
-    user_id        int auto_increment 											primary key,
+    user_id        int auto_increment                                           primary key,
     user_login     varchar(50)                                                  not null,
     user_password  text                                                         not null,
     user_avatar_id tinytext                                                     null,
@@ -100,7 +100,7 @@ create index category_id
 create index set_author_id
     on sets (set_author_id);
 
-create definer = root@localhost trigger insertIdCheck
+create trigger insertIdCheck
     before update
     on users
     for each row
@@ -114,8 +114,7 @@ begin
         end if;
     end;
 
-create
-    definer = root@localhost function countQuestionsByCategory(categoryId int) returns int deterministic reads sql data
+create function countQuestionsByCategory(categoryId int) returns int deterministic reads sql data
 BEGIN
     DECLARE questionCount INT;
 
@@ -127,7 +126,7 @@ BEGIN
 END;
 
 create
-    definer = root@localhost procedure deleteQuestion(IN p_category_id int, IN p_question_number tinyint)
+     procedure deleteQuestion(IN p_category_id int, IN p_question_number tinyint)
 BEGIN
     DELETE FROM questions
     WHERE category_id = p_category_id AND question_number = p_question_number;
@@ -138,7 +137,7 @@ BEGIN
 END;
 
 create
-    definer = root@localhost procedure deleteRound(IN p_set_id int, IN p_round_number tinyint)
+     procedure deleteRound(IN p_set_id int, IN p_round_number tinyint)
 BEGIN
     DELETE FROM rounds
     WHERE set_id = p_set_id AND round_number = p_round_number;
@@ -149,7 +148,7 @@ BEGIN
 END;
 
 create
-    definer = root@localhost procedure getRoundsCount()
+     procedure getRoundsCount()
 begin
 select user_id, count(*) from
 users inner join sets on sets.set_author_id=users.user_id
@@ -158,13 +157,13 @@ group by set_author_id;
 end;
 
 create
-    definer = root@localhost function isCorrectFileId(path tinytext) returns tinyint(1) deterministic
+     function isCorrectFileId(path tinytext) returns tinyint(1) deterministic
 begin
 return case when path regexp '^[0-9a-f]{24}$' then true else false end;
 end;
 
 create
-    definer = root@localhost procedure swapQuestions(IN p_category_id int, IN p_question_number tinyint)
+     procedure swapQuestions(IN p_category_id int, IN p_question_number tinyint)
 BEGIN
     DECLARE next_question_number TINYINT;
 
