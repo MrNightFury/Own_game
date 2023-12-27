@@ -16,9 +16,6 @@ export class UsersRepository {
     }
 
     public async getUserById(id: number) {
-        if (!id) {
-            return undefined;
-        }
         return await this.dbService.getDb()?.query<User[]>("select * from users where user_id=?", [id]).then(res => {
             return res[0][0];
         })

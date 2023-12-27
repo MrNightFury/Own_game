@@ -2,6 +2,7 @@
     "db": {
         "user": "root",
         "host": "localhost",
+        "password": "sql_MNF03",
         "port": 3306
     },
     "jwt": {

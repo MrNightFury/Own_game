@@ -64,11 +64,13 @@ export class SetsRepository {
     }
 
     public async addRound(setId: number) {
-        let rounds = await this.dbService.getDb()?.query<Round[]>("select * from rounds where set_id=? order by round_number desc limit 1", [setId]).then(res => {
+        let rounds = await this.dbService.getDb()?.query<Round[]>(
+            "select * from rounds where set_id=? order by round_number desc limit 1", [setId]).then(res => {
             return res[0];
         }) ?? [];
         let roundNumber = rounds.length > 0 ? rounds[0].round_number + 1 : 1;
-        return await this.dbService.getDb()?.query("insert into rounds(set_id, round_number) value (?, ?)", [setId, roundNumber]);
+        return await this.dbService.getDb()?.query(
+            "insert into rounds(set_id, round_number) value (?, ?)", [setId, roundNumber]);
     }
 
     public async updateRound(round: Round) {
@@ -76,11 +78,13 @@ export class SetsRepository {
     }
 
     public async deleteRound(setId: number, roundNumber: number) {
-        return await this.dbService.getDb()?.query("call deleteRound(?, ?)", [setId, roundNumber]);
+        return await this.dbService.getDb()?.query(
+            "call deleteRound(?, ?)", [setId, roundNumber]);
     }
 
     public async getRoundsCount(setId: number) {
-        return await this.dbService.getDb()?.query<any>("select count(*) as count from rounds where set_id=?", [setId]).then(res => {
+        return await this.dbService.getDb()?.query<any>(
+            "select count(*) as count from rounds where set_id=?", [setId]).then(res => {
             return res[0][0].count;
         }) ?? 0;
     }
