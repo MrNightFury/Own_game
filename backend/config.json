@@ -2,8 +2,8 @@
     "db": {
         "user": "root",
         "host": "localhost",
-        "password": "sql_MNF03",
-        "port": 3306
+        "password": "12345",
+        "port": 8082
     },
     "jwt": {
         "secret": "NestJSIsCool"

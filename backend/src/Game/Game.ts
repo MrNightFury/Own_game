@@ -121,19 +121,23 @@ export class Game {
                 await this.setRound(this.round + 1);
                 await this.renderRoundMenu();
             } else {
-                this.state = GameState.WAITING_FOR_START;
-                this.notifyAll({
-                    type: MessageType.SET_SCREEN,
-                    data: {
-                        render: await ejs.renderFile("./views/ingame/screenText.ejs", {text: "Game over", hint: "Create new game to play again"})
-                    }
-                })
+                this.win();
             }   
         } else {
             this.setScreen(this.provider.getRoundMenuScreen(this.getRound(), this.solved), () => {
                 this.state = GameState.CHOOSING_QUESTION;
             });
         }
+    }
+
+    public async win() {
+        this.state = GameState.WAITING_FOR_START;
+        this.notifyAll({
+            type: MessageType.SET_SCREEN,
+            data: {
+                render: await ejs.renderFile("./views/ingame/screenText.ejs", {text: "Game over", hint: "Create new game to play again"})
+            }
+        })
     }
 
     public async setRound(round: number) {
@@ -154,6 +158,11 @@ export class Game {
 
     public async startGame() {
         this.state = GameState.ACTION;
+        if (await this.provider.getRoundsCount(this.info.setId) == 0) {
+            this.win();
+            return;
+        }
+
         await this.setRound(1);
         await this.renderRoundMenu();
     }

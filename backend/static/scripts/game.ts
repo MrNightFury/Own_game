@@ -2,9 +2,12 @@ import { MessageType } from './../../src/Game/DTO.js';
 // @ts-ignore
 type Socket = import('socket.io-client').Socket;
 let url = location.href.split("/");
+
 /** @type {Socket} */
 //@ts-ignore
-const socket: Socket = io('ws://localhost', {query: { gameId: url[url.length - 1] }});
+var socket: Socket = io(`ws://localhost${location.port ? ":" + location.port : "/game/socket"}`, { query: { gameId: url[url.length - 1] }
+    , namespace: "/game/socket"
+});
 
 socket.on('connect', () => {
     console.log("Connected");
@@ -14,12 +17,12 @@ socket.on('disconnect', () => {
     console.log("Disconnected");
 })
 
-socket.on("error", (m: string) => {
-    console.log(m);
+socket.on("connect_error", (m) => {
+    console.log("Error", m.message);
 })
 
 socket.on(MessageType.DEBUG, (m) => {
-    console.log("DEBUG " + JSON.parse(m));
+    console.log("DEBUG", JSON.parse(m));
 })
 
 // SET_ROUND
@@ -169,4 +172,4 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-console.log("Engine loaded");
+console.log("Engine loaded!");

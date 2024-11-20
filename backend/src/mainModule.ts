@@ -41,8 +41,8 @@ export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply((req: Request, res: Response, next: NextFunction) => {
             if (req.baseUrl.split("/")[1] != "files") {
-                // console.log(req.method + ": " + req.baseUrl);
-            }
+                console.log(req.method + ": " + req.baseUrl);
+            };
             next();
         }).forRoutes("*");
         consumer.apply(JWTService.middleware)

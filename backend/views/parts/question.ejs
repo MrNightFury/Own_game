@@ -19,7 +19,14 @@
     
     <div class="questionContent">
         <% if (edit == question.question_number) { %>
+            <!-- <select>
+                <option value=""></option>
+            </select> -->
             <div class="questionText" id="text<%- numb%>" contenteditable><%- question.question_text || "No text" %></div>
+            <div>
+                <input type="file" id="questionFileInput">
+            </div>
+
             <div class="divider"></div>
             <div class="questionAnswer">
                 Ответ:

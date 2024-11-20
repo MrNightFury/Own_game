@@ -7,7 +7,9 @@ import { JWTService } from "../JWTService.js";
 import { UsersRepository } from "../db/repositories/UsersRepository.js";
 
 
-@WebSocketGateway()
+@WebSocketGateway({
+    namespace: "/game/socket"
+})
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     constructor(private readonly engine: GameEngine,
                 private readonly usersRepository: UsersRepository){}
@@ -18,6 +20,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
 
     async handleConnection(client: Socket, ...args: any[]) {
+        console.log("URL", client.client.request.url);
+        
         let token = GameHelper.parseToken(client.handshake.headers.cookie ?? "");
         if (!token) {
             client.emit("error", "No token provided in handshake");

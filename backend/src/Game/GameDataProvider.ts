@@ -33,6 +33,7 @@ export class GameDataProvider {
 
     public async loadDataForRound(id: RoundIdentifier) {
         this.getRoundsCount(id.set);
+        
         if (this.cache.get(key(id))) {
             return;
         }

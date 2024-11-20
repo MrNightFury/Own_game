@@ -10,6 +10,7 @@ export class ConfigService {
         this.config = loadConfig();
         JWTService.setSecretKey(this.config.jwt.secret);
         console.log("Configs loaded")
+        console.log(this.config);
     }
 
     public getConfig() {

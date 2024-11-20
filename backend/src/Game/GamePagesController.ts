@@ -41,6 +41,9 @@ export class GamePagesController {
             return;
         }
         let user = await this.repository.getUserById(req.body.id);
+        if (!user) {
+            console.log(req.body.id + "NOT FOUND")
+        }
         let game = this.engine.getGameById(+req.params.id)?.getInfo()
         if (!game) {
             res.status(HttpStatus.NOT_FOUND).send();

@@ -13,7 +13,8 @@ export class DBService {
             host: cfg.db.host,
             user: cfg.db.user,
             password: cfg.db.password,
-            database: "own_game_db"
+            database: "own_game_db",
+            port: cfg.db.port
         }).promise();
         console.log("DB provider loaded");
     }

@@ -64,6 +64,7 @@ function saveQuestion(questionNumber) {
         question_text: document.getElementById("text" + questionNumber).innerHTML,
         question_answer: document.getElementById("ans" + questionNumber).innerHTML
     }
+
     fetch("/api/categories/" + category_id + "/questions", {
         body: JSON.stringify(body),
         method: "PUT",
